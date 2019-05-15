@@ -1,4 +1,6 @@
-// Import React Navigation
+import React, { Component } from 'react';
+import { View, ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
+import { Asset, Font, Image } from 'expo';
 import {
   createBottomTabNavigator,
   createStackNavigator,
@@ -9,7 +11,7 @@ import tabBarIcon from './utils/tabBarIcon';
 import FeedScreen from './screens/FeedScreen';
 import NewPostScreen from './screens/NewPostScreen';
 import SelectPhotoScreen from './screens/SelectPhotoScreen';
-
+import { fonts } from './utils/loadRequirements';
 // Create our main tab navigator for moving between the Feed and Photo screens
 const navigator = createBottomTabNavigator(
   {
@@ -41,12 +43,12 @@ const navigator = createBottomTabNavigator(
 );
 
 // Create the navigator that pushes high-level screens like the `NewPost` screen.
-const stackNavigator = createStackNavigator(
+const StackNavigator = createStackNavigator(
   {
     Main: {
       screen: navigator,
       // Set the title for our app when the tab bar screen is present
-      navigationOptions: { title: 'Instaham 🐷' },
+      navigationOptions: { title: 'iTravel' },
     },
     // This screen will not have a tab bar
     NewPost: NewPostScreen,
@@ -56,5 +58,47 @@ const stackNavigator = createStackNavigator(
   },
 );
 
-// Export it as the root component
-export default stackNavigator;
+export default class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            isReady: false,
+        };
+    }
+
+    componentWillMount() {
+        this.loadRequirement();
+    }
+
+    componentDidMount() {
+        StatusBar.setHidden(true);
+    }
+
+    async loadRequirement() {
+        await Font.loadAsync(fonts);
+
+        const usrInfos = await AsyncStorage.getItem('userInfos');
+        if (usrInfos) {
+            const infos =
+        typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
+            userInfos.set(infos);
+        }
+        this.setState({ isReady: true });
+    }
+
+    render() {
+        if (!this.state.isReady) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator
+                        size="large"
+                        color="#132968"
+                        style={{ alignSelf: 'center' }}
+                        animating
+                    />
+                </View>
+            );
+        }
+        return <StackNavigator />;
+    }
+}

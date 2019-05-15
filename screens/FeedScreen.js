@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, LayoutAnimation, RefreshControl } from 'react-native';
 import Search from 'react-native-search-box';
 
-
+import { COLORS, FONTS } from '../utils/constants';
 import List from '../components/List';
 import Fire from '../Fire';
 
@@ -91,7 +91,6 @@ export default class FeedScreen extends Component {
   }
 
   render() {
-    console.log(this.state)
     // Let's make everything purrty by calling this method which animates layout changes.
     LayoutAnimation.easeInEaseOut();
     return (
@@ -99,10 +98,9 @@ export default class FeedScreen extends Component {
         <Search
           ref="search_box"
           onSearch={this.onSearch}
-          /**
-          * There many props that can customizable
-          * Please scroll down to Props section
-          */
+          backgroundColor={COLORS.MAIN_BLUE_COLOR}
+          inputStyle={{ fontFamily: FONTS.MEDIUM }}
+          cancelButtonTextStyle={{ fontFamily: FONTS.MEDIUM }}
         />
         <List
           refreshControl={

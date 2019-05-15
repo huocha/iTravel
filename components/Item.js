@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { COLORS, FONTS } from '../utils/constants';
 const profileImageSize = 36;
 const padding = 12;
 
@@ -18,12 +19,12 @@ export default class Item extends React.Component {
   }
 
   render() {
-    const { name, uid, image,  imageWidth, imageHeight, address, type, description } = this.props;
+    const { name, uid, image, address, type, description } = this.props;
     // const { text, name, imageWidth, imageHeight, uid, image } = this.props;
 
     // Reduce the name to something
-    const imgW = imageWidth || this.state.width;
-    const imgH = imageHeight || this.state.height;
+    const imgW = this.state.width;
+    const imgH = this.state.height;
     const aspect = imgW / imgH || 1;
 
     return (
@@ -81,10 +82,11 @@ const IconBar = () => (
 );
 
 const styles = StyleSheet.create({
-  text: { fontWeight: '600' },
+  text: { fontWeight: '600', fontFamily: FONTS.MEDIUM },
   subtitle: {
     fontWeight: '400',
     opacity: 0.6,
+    fontFamily: FONTS.REGULAR
   },
   row: {
     flexDirection: 'row',
@@ -96,7 +98,6 @@ const styles = StyleSheet.create({
   },
   avatar: {
     aspectRatio: 1,
-    backgroundColor: '#D8D8D8',
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#979797',
     borderRadius: profileImageSize / 2,
