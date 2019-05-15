@@ -18,7 +18,8 @@ export default class Item extends React.Component {
   }
 
   render() {
-    const { text, name, imageWidth, imageHeight, uid, image } = this.props;
+    const { name, uid, image,  imageWidth, imageHeight, address, type, description } = this.props;
+    // const { text, name, imageWidth, imageHeight, uid, image } = this.props;
 
     // Reduce the name to something
     const imgW = imageWidth || this.state.width;
@@ -27,7 +28,7 @@ export default class Item extends React.Component {
 
     return (
       <View>
-        <Header image={{ uri: image }} name={name} />
+        <Header image={{ uri: image }} name={name} address={address} />
         <Image
           resizeMode="contain"
           style={{
@@ -37,7 +38,7 @@ export default class Item extends React.Component {
           }}
           source={{ uri: image }}
         />
-        <Metadata name={name} description={text} />
+        <Metadata name={name} description={description} />
       </View>
     );
   }
@@ -51,11 +52,14 @@ const Metadata = ({ name, description }) => (
   </View>
 );
 
-const Header = ({ name, image }) => (
+const Header = ({ name, image, address }) => (
   <View style={[styles.row, styles.padding]}>
     <View style={styles.row}>
       <Image style={styles.avatar} source={image} />
-      <Text style={styles.text}>{name}</Text>
+      <View>
+        <Text style={styles.text}>{name}</Text>
+        <Text style={styles.subtitle}>{address.street}{", "}{address.city}</Text>
+      </View>
     </View>
     <Icon name="ios-more" />
   </View>
@@ -79,7 +83,8 @@ const IconBar = () => (
 const styles = StyleSheet.create({
   text: { fontWeight: '600' },
   subtitle: {
-    opacity: 0.8,
+    fontWeight: '400',
+    opacity: 0.6,
   },
   row: {
     flexDirection: 'row',

@@ -8,7 +8,7 @@ const firebase = require('firebase');
 // Required for side-effects
 require('firebase/firestore');
 
-const collectionName = 'itravel';
+const collectionName = 'itravel-beta';
 
 class Fire {
   constructor() {
@@ -36,13 +36,14 @@ class Fire {
 
   // Download Data
   getPaged = async ({ size, start }) => {
-    let ref = this.collection.orderBy('timestamp', 'desc').limit(size);
+    let ref = this.collection.limit(size);
     try {
       if (start) {
         ref = ref.startAfter(start);
       }
 
       const querySnapshot = await ref.get();
+
       const data = [];
       querySnapshot.forEach(function(doc) {
         if (doc.exists) {
@@ -52,12 +53,12 @@ class Fire {
           const user = post.user || {};
 
           const name = user.deviceName;
-          console.log({ doc })
+
           const reduced = {
             key: doc.id,
-            name: (name || 'Secret Duck').trim(),
             ...post,
           };
+
           data.push(reduced);
         }
       });

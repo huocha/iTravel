@@ -1,6 +1,8 @@
 import firebase from 'firebase';
 import React, { Component } from 'react';
-import { LayoutAnimation, RefreshControl } from 'react-native';
+import { View, LayoutAnimation, RefreshControl } from 'react-native';
+import Search from 'react-native-search-box';
+
 
 import List from '../components/List';
 import Fire from '../Fire';
@@ -13,6 +15,7 @@ export default class FeedScreen extends Component {
     loading: false,
     posts: [],
     data: {},
+    search: '',
   };
 
   componentDidMount() {
@@ -78,20 +81,40 @@ export default class FeedScreen extends Component {
   // If we press the "Load More..." footer then get the next page of posts
   onPressFooter = () => this.makeRemoteRequest(this.lastKnownKey);
 
+  // Important: You must return a Promise
+  onSearch = (searchText) => {
+      return new Promise((resolve, reject) => {
+          console.log(searchText);
+          console.log('Add your search function here.');
+          resolve();
+      });
+  }
+
   render() {
+    console.log(this.state)
     // Let's make everything purrty by calling this method which animates layout changes.
     LayoutAnimation.easeInEaseOut();
     return (
-      <List
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.loading}
-            onRefresh={this._onRefresh}
-          />
-        }
-        onPressFooter={this.onPressFooter}
-        data={this.state.posts}
-      />
+      <View>
+        <Search
+          ref="search_box"
+          onSearch={this.onSearch}
+          /**
+          * There many props that can customizable
+          * Please scroll down to Props section
+          */
+        />
+        <List
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.loading}
+              onRefresh={this._onRefresh}
+            />
+          }
+          onPressFooter={this.onPressFooter}
+          data={this.state.posts}
+        />
+      </View>
     );
   }
 }
