@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "iIravel",
+    "name": "iTravel",
     "description": "Story-sharing and emotion-keeper",
-    "slug": "instagram",
+    "slug": "itravel",
     "privacy": "unlisted",
     "sdkVersion": "30.0.0",
     "version": "1.0.0",
