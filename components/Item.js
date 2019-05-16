@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Image, StyleSheet, Text, View } from 'react-native';
 
 import { COLORS, FONTS } from '../utils/constants';
 const profileImageSize = 36;
@@ -29,8 +29,7 @@ export default class Item extends React.Component {
 
     return (
       <View>
-        <Header image={{ uri: image }} name={name} address={address} />
-        <Image
+        <ImageBackground
           resizeMode="contain"
           style={{
             backgroundColor: '#D8D8D8',
@@ -38,7 +37,15 @@ export default class Item extends React.Component {
             aspectRatio: aspect,
           }}
           source={{ uri: image }}
-        />
+        >
+          <View style={styles.viewBackground}>
+            <Text style={styles.text}>{name}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons style={{ marginRight: 8 }} name="ios-pin" size={18} color={COLORS.RED_COLOR} />
+              <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
+            </View>
+          </View>
+        </ImageBackground>
         <Metadata name={name} description={description} />
       </View>
     );
@@ -48,7 +55,7 @@ export default class Item extends React.Component {
 const Metadata = ({ name, description }) => (
   <View style={styles.padding}>
     <IconBar />
-    <Text style={styles.text}>{name}</Text>
+    <Text style={styles.textBlue}>{name}</Text>
     <Text style={styles.subtitle}>{description}</Text>
   </View>
 );
@@ -67,7 +74,7 @@ const Header = ({ name, image, address }) => (
 );
 
 const Icon = ({ name }) => (
-  <Ionicons style={{ marginRight: 8 }} name={name} size={26} color="black" />
+  <Ionicons style={{ marginRight: 8 }} name={name} size={26} color={COLORS.RED_COLOR} />
 );
 
 const IconBar = () => (
@@ -82,11 +89,18 @@ const IconBar = () => (
 );
 
 const styles = StyleSheet.create({
-  text: { fontWeight: '600', fontFamily: FONTS.MEDIUM },
+  text: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: 'white' },
+  textBlue: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: COLORS.MAIN_BLUE_COLOR },
   subtitle: {
     fontWeight: '400',
     opacity: 0.6,
     fontFamily: FONTS.REGULAR
+  },
+  subtitleWhite: {
+    fontWeight: '400',
+    opacity: 0.8,
+    fontFamily: FONTS.REGULAR,
+    color: 'white'
   },
   row: {
     flexDirection: 'row',
@@ -106,4 +120,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     marginRight: padding,
   },
+  viewBackground: {
+    backgroundColor: 'rgba(250, 107, 107, 0.4)',
+    padding: 15,
+  }
 });

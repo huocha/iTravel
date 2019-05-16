@@ -42,18 +42,14 @@ export default class FeedScreen extends Component {
       };
       return {
         data,
-        // Sort the data by timestamp
-        posts: Object.values(data).sort((a, b) => a.timestamp < b.timestamp),
+        posts: Object.values(data),
       };
     });
   };
 
   // Call our database and ask for a subset of the user posts
   makeRemoteRequest = async lastKey => {
-    // If we are currently getting posts, then bail out..
-    if (this.state.loading) {
-      return;
-    }
+    if (this.state.loading) { return; }
     this.setState({ loading: true });
 
     // The data prop will be an array of posts, the cursor will be used for pagination.
@@ -65,9 +61,7 @@ export default class FeedScreen extends Component {
     this.lastKnownKey = cursor;
     // Iteratively add posts
     let posts = {};
-    for (let child of data) {
-      posts[child.key] = child;
-    }
+    for (let child of data) { posts[child.key] = child; }
     this.addPosts(posts);
 
     // Finish loading, this will stop the refreshing animation.
@@ -81,11 +75,23 @@ export default class FeedScreen extends Component {
   // If we press the "Load More..." footer then get the next page of posts
   onPressFooter = () => this.makeRemoteRequest(this.lastKnownKey);
 
+  onCancel = () => {
+    return new Promise(function(resolve, reject) {
+      this.setState({ posts: Object.values(this.state.data) })
+    });
+  }
   // Important: You must return a Promise
   onSearch = (searchText) => {
       return new Promise((resolve, reject) => {
-          console.log(searchText);
-          console.log('Add your search function here.');
+          if (!searchText) {
+            this.setState({ posts: Object.values(this.state.data) })
+          }
+          const searchedData = this.state.posts.filter((post) =>{
+            return post.name.includes(searchText) || post.address.street.includes(searchText)
+              || post.address.city.includes(searchText)
+          })
+
+          this.setState({ posts: searchedData });
           resolve();
       });
   }
