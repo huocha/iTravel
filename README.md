@@ -2,8 +2,8 @@
 An travel app made with React Native Expo, Firebase
 
 ## Demo
-![Screenshots 1](/screenshots/1.jpg =250x)
-![Screenshots 2](/screenshots/2.jpg =250x)
+![Screenshots 1](/screenshots/1.jpg | width=250)
+![Screenshots 2](/screenshots/2.jpg | width=250)
 
 ## Run
 ```
