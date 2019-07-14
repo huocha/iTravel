@@ -4,8 +4,15 @@ const profileImageSize = 36;
 const padding = 12;
 
 const styles = StyleSheet.create({
-  text: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: 'white' },
-  textBlue: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: COLORS.MAIN_BLUE_COLOR },
+  text: {
+    fontWeight: '600',
+    fontFamily: FONTS.MEDIUM, color: 'white'
+  },
+  textBlue: {
+    fontWeight: '600',
+    fontFamily: FONTS.MEDIUM,
+    color: COLORS.MAIN_BLUE_COLOR
+  },
   subtitle: {
     fontWeight: '400',
     opacity: 0.6,

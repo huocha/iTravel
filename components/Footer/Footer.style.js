@@ -11,7 +11,11 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: 'rgba(0,0,0,0.3)',
   },
-  text: { fontWeight: 'bold', fontSize: 16, fontFamily: FONTS.MEDIUM },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    fontFamily: FONTS.MEDIUM
+  },
 });
 
 export default styles;
