@@ -113,7 +113,7 @@ export default class FeedScreen extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.loading}
-              onRefresh={this._onRefresh}
+              onRefresh={() => { /* #TODO */ }}
             />
           }
           onPressFooter={this.onPressFooter}
