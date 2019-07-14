@@ -41,7 +41,7 @@ export default class Item extends React.Component {
           <View style={styles.viewBackground}>
             <Text style={styles.text}>{name}</Text>
             <View style={{ flexDirection: 'row' }}>
-              <Icon style="Ionicons" name="ios-pin"  style={{ marginRight: 8 }} size={18} color={COLORS.RED_COLOR} />
+              <Icon type="Ionicons" name="ios-pin" size={18} />
               <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
             </View>
           </View>
