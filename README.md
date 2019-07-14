@@ -16,9 +16,12 @@ const firebaseConfig
 ```
 
 ## Feature
+
 - [x] Search by museum name
 - [ ] Choose by city
 - [ ] Add to favorite
 - [ ] Auth/login
+- [ ] Firebase add more data
+
 
 ## [Deployment](https://expo.io/@huocha/itravel)

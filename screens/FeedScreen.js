@@ -35,6 +35,7 @@ export default class FeedScreen extends Component {
 
   // Append the item to our states `data` prop
   addPosts = posts => {
+    if (!Object.keys(posts).length){ console.log("no more"); return; }
     this.setState(previousState => {
       let data = {
         ...previousState.data,
