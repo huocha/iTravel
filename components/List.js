@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-import Footer from './Footer';
-import Item from './Item';
+import Footer from './Footer/Footer';
+import Item from './Item/Item';
 
 class List extends React.Component {
   renderItem = ({ item }) => <Item {...item} />;

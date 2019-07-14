@@ -1,10 +1,11 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { ImageBackground, Image, StyleSheet, Text, View } from 'react-native';
-
-import { COLORS, FONTS } from '../utils/constants';
+import Icon from '../Icon/Icon';
+import styles from './Item.style';
+import { COLORS, FONTS } from '../../utils/constants';
 const profileImageSize = 36;
 const padding = 12;
+
 
 export default class Item extends React.Component {
   state = {};
@@ -20,7 +21,6 @@ export default class Item extends React.Component {
 
   render() {
     const { name, uid, image, address, type, description } = this.props;
-    // const { text, name, imageWidth, imageHeight, uid, image } = this.props;
 
     // Reduce the name to something
     const imgW = this.state.width;
@@ -41,7 +41,7 @@ export default class Item extends React.Component {
           <View style={styles.viewBackground}>
             <Text style={styles.text}>{name}</Text>
             <View style={{ flexDirection: 'row' }}>
-              <Ionicons style={{ marginRight: 8 }} name="ios-pin" size={18} color={COLORS.RED_COLOR} />
+              <Icon style="Ionicons" name="ios-pin"  style={{ marginRight: 8 }} size={18} color={COLORS.RED_COLOR} />
               <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
             </View>
           </View>
@@ -69,59 +69,17 @@ const Header = ({ name, image, address }) => (
         <Text style={styles.subtitle}>{address.street}{", "}{address.city}</Text>
       </View>
     </View>
-    <Icon name="ios-more" />
+    <Icon type="Ionicons" name="ios-more" />
   </View>
-);
-
-const Icon = ({ name }) => (
-  <Ionicons style={{ marginRight: 8 }} name={name} size={26} color={COLORS.RED_COLOR} />
 );
 
 const IconBar = () => (
   <View style={styles.row}>
     <View style={styles.row}>
-      <Icon name="ios-heart-outline" />
-      <Icon name="ios-chatbubbles-outline" />
-      <Icon name="ios-send-outline" />
+      <Icon type="MaterialCommunityIcons" name="heart-outline" />
+      <Icon type="MaterialIcons" name="chat-bubble-outline" />
+      <Icon type="Feather" name="send" />
     </View>
-    <Icon name="ios-bookmark-outline" />
+    <Icon type="MaterialCommunityIcons" name="bookmark-outline" />
   </View>
 );
-
-const styles = StyleSheet.create({
-  text: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: 'white' },
-  textBlue: { fontWeight: '600', fontFamily: FONTS.MEDIUM, color: COLORS.MAIN_BLUE_COLOR },
-  subtitle: {
-    fontWeight: '400',
-    opacity: 0.6,
-    fontFamily: FONTS.REGULAR
-  },
-  subtitleWhite: {
-    fontWeight: '400',
-    opacity: 0.8,
-    fontFamily: FONTS.REGULAR,
-    color: 'white'
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  padding: {
-    padding,
-  },
-  avatar: {
-    aspectRatio: 1,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#979797',
-    borderRadius: profileImageSize / 2,
-    width: profileImageSize,
-    height: profileImageSize,
-    resizeMode: 'cover',
-    marginRight: padding,
-  },
-  viewBackground: {
-    backgroundColor: 'rgba(250, 107, 107, 0.4)',
-    padding: 15,
-  }
-});
