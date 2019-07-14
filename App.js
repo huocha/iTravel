@@ -46,7 +46,7 @@ const navigator = createBottomTabNavigator(
 const StackNavigator = createStackNavigator(
   {
     Main: {
-      screen: navigator,
+      screen: FeedScreen,
       // Set the title for our app when the tab bar screen is present
       navigationOptions: { title: 'iTravel' },
     },

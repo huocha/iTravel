@@ -11,6 +11,7 @@ class List extends React.Component {
     const { onPressFooter, ...props } = this.props;
     return (
       <FlatList
+        style={{ marginBottom: 40 }}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={footerProps => (
           <Footer {...footerProps} onPress={onPressFooter} />
