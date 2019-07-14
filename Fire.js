@@ -8,7 +8,7 @@ const firebase = require('firebase');
 // Required for side-effects
 require('firebase/firestore');
 
-const collectionName = 'itravel-beta';
+const collectionName = 'itravel';
 
 class Fire {
   constructor() {
