@@ -1,5 +1,7 @@
 export const COLORS = Object.freeze({
     MAIN_BLUE_COLOR: '#132968',
+    CYAN: '#5e90cc',
+    AQUA: '#65d3ce',
     RED_COLOR: '#fa6b6b',
     LIGHT_GREY: '#a1a9c3',
     BORDER_BOTTOM: '#E7EBEF',

@@ -18,6 +18,9 @@ const Icon = ({ type, name, size }) => {
     case 'MaterialIcons':
       return (<MaterialIcons style={styles} name={name} size={size || SIZE} color={COLORS.RED_COLOR} />)
       break;
+    case 'AntDesign':
+      return (<MaterialIcons style={styles} name={name} size={size || SIZE} color={COLORS.RED_COLOR} />)
+      break;
     default:
       return null
       break;

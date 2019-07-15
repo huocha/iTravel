@@ -21,7 +21,7 @@ const firebaseConfig
 - [ ] Choose by city
 - [ ] Add to favorite
 - [ ] Auth/login
-- [ ] Firebase add more data
+- [ ] Firebase update address
 
 
 ## [Deployment](https://expo.io/@huocha/itravel)

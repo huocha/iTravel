@@ -11,7 +11,9 @@ import tabBarIcon from './utils/tabBarIcon';
 import FeedScreen from './screens/FeedScreen';
 import NewPostScreen from './screens/NewPostScreen';
 import SelectPhotoScreen from './screens/SelectPhotoScreen';
+import Login from './screens/Login';
 import { fonts } from './utils/loadRequirements';
+
 // Create our main tab navigator for moving between the Feed and Photo screens
 const navigator = createBottomTabNavigator(
   {
@@ -31,6 +33,12 @@ const navigator = createBottomTabNavigator(
         tabBarIcon: tabBarIcon('add-circle'),
       },
     },
+    User: {
+      screen: Login,
+      navigationOptions: {
+        tabBarIcon: tabBarIcon('person'),
+      },
+    },
   },
   {
     // We want to hide the labels and set a nice 2-tone tint system for our tabs
@@ -46,7 +54,7 @@ const navigator = createBottomTabNavigator(
 const StackNavigator = createStackNavigator(
   {
     Main: {
-      screen: FeedScreen,
+      screen: navigator,
       // Set the title for our app when the tab bar screen is present
       navigationOptions: { title: 'iTravel' },
     },
@@ -78,6 +86,7 @@ export default class App extends React.Component {
         await Font.loadAsync(fonts);
 
         const usrInfos = await AsyncStorage.getItem('userInfos');
+
         if (usrInfos) {
             const infos =
         typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
