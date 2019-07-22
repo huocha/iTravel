@@ -4,14 +4,17 @@ import { Asset, Font, Image } from 'expo';
 import {
   createBottomTabNavigator,
   createStackNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
-
+import Fire from './Fire';
 import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
 import FeedScreen from './screens/FeedScreen';
 import NewPostScreen from './screens/NewPostScreen';
 import SelectPhotoScreen from './screens/SelectPhotoScreen';
 import Login from './screens/Login';
+import ProfileScreen from './screens/ProfileScreen';
+import Register from './screens/Register';
 import { fonts } from './utils/loadRequirements';
 
 // Create our main tab navigator for moving between the Feed and Photo screens
@@ -34,7 +37,7 @@ const navigator = createBottomTabNavigator(
       },
     },
     User: {
-      screen: Login,
+      screen: ProfileScreen,
       navigationOptions: {
         tabBarIcon: tabBarIcon('person'),
       },
@@ -50,27 +53,42 @@ const navigator = createBottomTabNavigator(
   },
 );
 
-// Create the navigator that pushes high-level screens like the `NewPost` screen.
-const StackNavigator = createStackNavigator(
+const AppStack = createStackNavigator(
   {
     Main: {
       screen: navigator,
       // Set the title for our app when the tab bar screen is present
       navigationOptions: { title: 'iTravel' },
     },
-    // This screen will not have a tab bar
-    NewPost: NewPostScreen,
   },
   {
     cardStyle: { backgroundColor: 'white' },
   },
 );
 
+const AuthStack = createSwitchNavigator(
+  {
+    Login: Login,
+    Register: Register
+  }
+);
+const createRootNavigator = (signedIn = false) => {
+   return createSwitchNavigator(
+    {
+      App: AppStack,
+      Auth: AuthStack,
+    },
+    {
+      initialRouteName: signedIn ? "App" : "Auth",
+    }
+  );
+}
 export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
             isReady: false,
+            signedIn: false,
         };
     }
 
@@ -80,6 +98,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         StatusBar.setHidden(true);
+
     }
 
     async loadRequirement() {
@@ -90,12 +109,16 @@ export default class App extends React.Component {
         if (usrInfos) {
             const infos =
         typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
-            userInfos.set(infos);
+            // userInfos.set(infos);
+            this.setState({ signedIn: true })
         }
         this.setState({ isReady: true });
     }
 
     render() {
+        const { signedIn, isReady } = this.state;
+        const Layout = createRootNavigator(signedIn)
+
         if (!this.state.isReady) {
             return (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -108,6 +131,6 @@ export default class App extends React.Component {
                 </View>
             );
         }
-        return <StackNavigator />;
+        return <Layout />;
     }
 }

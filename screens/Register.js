@@ -1,32 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native'
 import { COLORS, FONTS } from '../utils/constants';
-import firebase from 'firebase';
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      errorMessage: null,
-    }
-  }
+export default class Register extends React.Component {
+  state = { email: '', password: '', errorMessage: null }
 
-  handleLogin = () => {
-    // TODO: Firebase stuff...
+  handleSignUp = () => {
     const { email, password } = this.state;
-    
+
     firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(result => {
-        const uid = result.user.uid;
-        if (uid) {
-          AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid }), () => {
-            this.props.navigation.navigate("App");
-          });
-        }
-      })
+      .createUserWithEmailAndPassword(email, password)
       .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -62,34 +45,24 @@ export default class Login extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <TouchableOpacity
-          style={{ width: '90%' }}
-          onPress={()=>{}}
-        >
-          <Text style={styles.forgotLink}>Forgot password</Text>
-        </TouchableOpacity>
+        <View style={styles.wrapper}>
+          <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.LIGHT_GREY }}>
+            Already have an account?
+          </Text>
+          <TouchableOpacity
+            onPress={()=> this.props.navigation.navigate("Login")}
+          >
+            <Text style={styles.forgotLink}> Log in</Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={this.handleLogin}
+          onPress={this.handleSignUp}
         >
-          <Text style={styles.loginText}>LOG IN</Text>
+          <Text style={styles.loginText}>SIGN UP</Text>
         </TouchableOpacity>
 
-        <View style={styles.orView}>
-          <View style={styles.hairline} />
-          <Text style={styles.loginButtonBelowText}>OR</Text>
-          <View style={styles.hairline} />
-        </View>
-
-        <View style={styles.wrapper}>
-          <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.LIGHT_GREY }}>Don't have an account? </Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.CYAN }}>SIGN UP</Text>
-          </TouchableOpacity>
-
-        </View>
 
       </View>
     )
@@ -102,15 +75,14 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   wrapper: {
-    flexDirection: 'row',
     width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   forgotLink: {
     fontFamily: FONTS.MEDIUM,
     color: COLORS.CYAN,
-    alignSelf: 'flex-end',
   },
   textInput: {
     height: 40,
