@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {
+  Alert,
   Animated,
   Image,
   ImageBackground,
@@ -9,6 +11,11 @@ import {
   Text,
   View,
   Dimensions,
+  Modal,
+  TouchableHighlight,
+  TouchableOpacity,
+  Button,
+  AsyncStorage,
 } from 'react-native'
 import {
   TabBar,
@@ -20,7 +27,9 @@ import {
 import PropTypes from 'prop-types'
 import { mansonry } from '../utils/image'
 import Posts from './Post/Posts'
-
+import { COLORS, FONTS } from '../utils/constants';
+import Fire from '../Fire';
+import firebase from 'firebase';
 
 class ProfileScreen extends Component {
   static propTypes = {
@@ -58,6 +67,7 @@ class ProfileScreen extends Component {
       ],
     },
     postsMasonry: {},
+    dialogVisible: false,
   }
 
   componentWillMount() {
@@ -88,7 +98,6 @@ class ProfileScreen extends Component {
   }
 
   _renderScene = ({ route: { key } }) => {
-    console.log({ key })
     switch (key) {
       case '1':
         return this.renderMansonry2Col()
@@ -142,14 +151,21 @@ class ProfileScreen extends Component {
             </View>
           </ImageBackground>
         </View>
-        <View style={styles.profileImageContainer}>
-          <Image
-            source={{
-              uri: avatar,
-            }}
-            style={styles.profileImage}
-          />
-        </View>
+
+          <View style={styles.profileImageContainer}>
+            <TouchableHighlight
+              onPress={() => {
+                this.setDialogVisible(true);
+              }}
+            >
+            <Image
+              source={{
+                uri: avatar,
+              }}
+              style={styles.profileImage}
+            />
+            </TouchableHighlight>
+          </View>
       </View>
     )
   }
@@ -172,12 +188,51 @@ class ProfileScreen extends Component {
       </View>
     )
   }
+  setDialogVisible = (visible) => {
+    this.setState({ dialogVisible: visible });
+  }
+
+  onLogout = () => {
+    const uid = Fire.shared.uid;
+    if (uid) {
+      firebase.auth().signOut().then(function() {
+        AsyncStorage.removeItem('userInfos');
+
+        this.props.navigation.navigate('Auth');
+      }).catch(function(error) {
+        // An error happened.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        Alert(errorMessage);
+      });
+    }
+  }
 
   render() {
 
     return (
       <ScrollView style={styles.scroll}>
         <View style={[styles.container, this.props.containerStyle]}>
+          <Dialog
+            visible={this.state.dialogVisible}
+            onTouchOutside={() => this.setDialogVisible(false)}
+            width={0.6}
+            >
+            <DialogContent>
+              <TouchableOpacity
+                onPress={this.onLogout}
+                style={styles.dialogTouch}
+              >
+                <Text style={styles.dialogText}>Log out</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={styles.dialogTouch}
+              >
+                <Text style={styles.dialogText}>Desactivate</Text>
+              </TouchableOpacity>
+            </DialogContent>
+          </Dialog>
           <View style={styles.cardContainer}>
             {this.renderContactHeader()}
             <TabView
@@ -292,15 +347,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabLabelNumber: {
-    color: 'black',
+    color: COLORS.MAIN_BLUE_COLOR,
     fontSize: 22,
     textAlign: 'center',
     marginBottom: 2,
   },
   tabLabelText: {
-    color: 'black',
+    color: COLORS.MAIN_BLUE_COLOR,
     fontSize: 9,
     textAlign: 'left',
   },
+  dialogTouch: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: 'rgba(0,0,0,0.3)',
+  },
+  dialogText: {
+    color: COLORS.MAIN_BLUE_COLOR,
+    fontFamily: FONTS.MEDIUM,
+    fontSize: 18
+  }
 })
 export default ProfileScreen
