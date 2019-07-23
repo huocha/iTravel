@@ -11,6 +11,7 @@
     "react": "16.4.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-search-box": "^0.0.19",
+    "react-native-tab-view": "^2.9.0",
     "react-navigation": "2.6.0",
     "react-navigation-header-buttons": "^1.2.1",
     "uuid": "3.3.2"

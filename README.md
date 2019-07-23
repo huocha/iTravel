@@ -20,7 +20,7 @@ const firebaseConfig
 - [x] Search by museum name
 - [ ] Choose by city
 - [ ] Add to favorite
-- [ ] Auth/login
+- [x] Auth/login
 - [ ] Firebase update address
 
 
