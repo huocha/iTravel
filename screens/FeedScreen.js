@@ -24,7 +24,6 @@ export default class FeedScreen extends Component {
       // If we are, then we can get the first 5 posts
       this.makeRemoteRequest();
     } else {
-      // If we aren't then we should just start observing changes. This will be called when the user signs in
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           this.makeRemoteRequest();
@@ -35,7 +34,7 @@ export default class FeedScreen extends Component {
 
   // Append the item to our states `data` prop
   addPosts = posts => {
-    if (!Object.keys(posts).length){ console.log("no more"); return; }
+    if (!Object.keys(posts).length) { console.log("no more"); return; }
     this.setState(previousState => {
       let data = {
         ...previousState.data,
@@ -83,18 +82,18 @@ export default class FeedScreen extends Component {
   }
   // Important: You must return a Promise
   onSearch = (searchText) => {
-      return new Promise((resolve, reject) => {
-          if (!searchText) {
-            this.setState({ posts: Object.values(this.state.data) })
-          }
-          const searchedData = this.state.posts.filter((post) =>{
-            return post.name.includes(searchText) || post.address.street.includes(searchText)
-              || post.address.city.includes(searchText)
-          })
+    return new Promise((resolve, reject) => {
+      if (!searchText) {
+        this.setState({ posts: Object.values(this.state.data) })
+      }
+      const searchedData = this.state.posts.filter((post) =>{
+        return post.name.includes(searchText) || post.address.street.includes(searchText)
+          || post.address.city.includes(searchText)
+      })
 
-          this.setState({ posts: searchedData });
-          resolve();
-      });
+      this.setState({ posts: searchedData });
+      resolve();
+    });
   }
 
   render() {

@@ -16,10 +16,10 @@ export default class Login extends React.Component {
   handleLogin = () => {
     // TODO: Firebase stuff...
     const { email, password } = this.state;
-    
+
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then(result => {
+      .then((result) => {
         const uid = result.user.uid;
         if (uid) {
           AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid }), () => {
@@ -27,7 +27,7 @@ export default class Login extends React.Component {
           });
         }
       })
-      .catch(function(error) {
+      .catch((error) => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -36,7 +36,6 @@ export default class Login extends React.Component {
         } else {
           alert(errorMessage);
         }
-        console.log(error);
       });
   }
 

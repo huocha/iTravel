@@ -21,7 +21,7 @@ import { fonts } from './utils/loadRequirements';
 const navigator = createBottomTabNavigator(
   {
     // The name `Feed` is used later for accessing screens
-    Feed: {
+    /*Feed: {
       // Define the component we will use for the Feed screen.
       screen: FeedScreen,
       navigationOptions: {
@@ -35,7 +35,7 @@ const navigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: tabBarIcon('add-circle'),
       },
-    },
+    },*/
     User: {
       screen: ProfileScreen,
       navigationOptions: {
@@ -98,7 +98,6 @@ export default class App extends React.Component {
 
     componentDidMount() {
         StatusBar.setHidden(true);
-
     }
 
     async loadRequirement() {

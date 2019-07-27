@@ -1,6 +1,5 @@
 import uuid from 'uuid';
 
-import getUserInfo from './utils/getUserInfo';
 import shrinkImageAsync from './utils/shrinkImageAsync';
 import uploadPhoto from './utils/uploadPhoto';
 
@@ -70,12 +69,6 @@ class Fire {
     }
   };
 
-  // Upload Data
-  uploadPhotoAsync = async uri => {
-    const path = `${collectionName}/${this.uid}/${uuid.v4()}.jpg`;
-    return uploadPhoto(uri, path);
-  };
-
   post = async ({ text, image: localUri }) => {
     try {
       const { uri: reducedImage, width, height } = await shrinkImageAsync(
@@ -95,6 +88,12 @@ class Fire {
     } catch ({ message }) {
       alert(message);
     }
+  };
+
+  // Upload Data
+  uploadPhotoAsync = async uri => {
+    const path = `${collectionName}/${this.uid}/${uuid.v4()}.jpg`;
+    return uploadPhoto(uri, path);
   };
 
   // Helpers

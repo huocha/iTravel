@@ -1,17 +1,29 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage
+} from 'react-native'
 import { COLORS, FONTS } from '../utils/constants';
+import { userSignUp } from '../utils/userAction';
+import { NavigationActions } from 'react-navigation';
+
 
 export default class Register extends React.Component {
-  state = { email: '', password: '', errorMessage: null }
+  state = { email: '', password: '', errorMessage: null, isLoading: false }
 
   handleSignUp = () => {
     const { email, password } = this.state;
+    this.setState({ isLoading: true })
 
-    firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch(function(error) {
-        // Handle Errors here.
+    userSignUp({ email, password }, (error, user) => {
+      if (error) {
+        //Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         if (errorCode == 'auth/weak-password') {
@@ -19,17 +31,28 @@ export default class Register extends React.Component {
         } else {
           alert(errorMessage);
         }
-        console.log(error);
+      }
+
+      AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid }), () => {
+        this.setState({ isLoading: false })
+
+        this.props.navigation.navigate({
+          routeName: 'App',
+          params: {},
+          action: NavigationActions.navigate({ routeName: 'User' }),
+        });
+        
       });
+
+    })
   }
 
   render() {
+    const { email, password, isLoading } = this.state;
+
     return (
       <View style={styles.container}>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
+
         <TextInput
           style={styles.textInput}
           autoCapitalize="none"
@@ -60,9 +83,12 @@ export default class Register extends React.Component {
           style={styles.loginButton}
           onPress={this.handleSignUp}
         >
-          <Text style={styles.loginText}>SIGN UP</Text>
-        </TouchableOpacity>
+          {isLoading
+            ? (<ActivityIndicator color="#fff" />)
+            : (<Text style={styles.loginText}>SIGN UP</Text>)
+          }
 
+        </TouchableOpacity>
 
       </View>
     )
