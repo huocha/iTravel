@@ -7,6 +7,7 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 import Fire from './Fire';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
 import FeedScreen from './screens/FeedScreen';
@@ -83,7 +84,7 @@ const createRootNavigator = (signedIn = false) => {
     }
   );
 }
-export default class App extends React.Component {
+class App extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -130,6 +131,12 @@ export default class App extends React.Component {
                 </View>
             );
         }
-        return <Layout />;
+        return (
+          <ActionSheetProvider>
+            <Layout />
+          </ActionSheetProvider>
+        );
     }
 }
+
+export default App

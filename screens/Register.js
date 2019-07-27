@@ -12,7 +12,7 @@ import {
 import { COLORS, FONTS } from '../utils/constants';
 import { userSignUp } from '../utils/userAction';
 import { NavigationActions } from 'react-navigation';
-
+import { ButtonLink, ButtonPrimary } from '../components/Button/ButtonComponent';
 
 export default class Register extends React.Component {
   state = { email: '', password: '', errorMessage: null, isLoading: false }
@@ -70,23 +70,18 @@ export default class Register extends React.Component {
           <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.LIGHT_GREY }}>
             Already have an account?
           </Text>
-          <TouchableOpacity
-            onPress={()=> this.props.navigation.navigate("Login")}
-          >
-            <Text style={styles.forgotLink}> Log in</Text>
-          </TouchableOpacity>
+          <ButtonLink
+            onClick={()=> this.props.navigation.navigate("Login")}
+            title="Log in"
+          />
         </View>
 
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={this.handleSignUp}
-        >
-          {isLoading
-            ? (<ActivityIndicator color="#fff" />)
-            : (<Text style={styles.loginText}>SIGN UP</Text>)
-          }
-
-        </TouchableOpacity>
+        <ButtonPrimary
+          isLoading={isLoading}
+          onClick={this.handleSignUp}
+          title="SIGN UP"
+          viewStyle={{ width: '90%', paddingTop: 30 }}
+        />
 
       </View>
     )

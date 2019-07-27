@@ -3,7 +3,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 import { COLORS, FONTS } from '../../utils/constants';
 
@@ -14,14 +15,42 @@ const ButtonPrimary = props => {
         onPress={props.onClick}
         style={{...styles.containerStyle, ...props.containerStyle}}
       >
-        <Text style={{...styles.textStyle,...props.textStyle}}>
+        {props.isLoading
+          ? (<ActivityIndicator color="#fff" />)
+          : (
+            <Text style={{...styles.textStyle,...props.textStyle}}>
+              {props.title}
+            </Text>
+          )
+        }
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+const ButtonLink = props => {
+  const textStyle = {
+    ...styles.link,
+    ...props.textStyle
+  }
+
+  const containerStyle = {
+    paddingHorizontal: 2
+  }
+
+  return (
+    <View style={props.viewStyle}>
+      <TouchableOpacity
+        onPress={props.onClick}
+        style={containerStyle}
+      >
+        <Text style={textStyle}>
           {props.title}
         </Text>
       </TouchableOpacity>
     </View>
   )
 }
-
 
 const ButtonOutline = props => {
   const containerStyle = {
@@ -63,10 +92,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: FONTS.MEDIUM,
     fontSize: 18
+  },
+  link: {
+    fontFamily: FONTS.MEDIUM,
+    color: COLORS.CYAN,
   }
 });
 
 export {
   ButtonPrimary,
   ButtonOutline,
+  ButtonLink,
 }

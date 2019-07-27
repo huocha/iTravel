@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import contactData from '../mock/contact.json';
 import { getCurrentUser } from '../utils/userAction';
 import firebase from 'firebase';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 import Profile from '../components/Profile';
 
 class ProfileScreen extends Component {
@@ -23,7 +24,7 @@ class ProfileScreen extends Component {
   render() {
     const { user, posts } = this.state
     return (
-      <Profile {...user} posts={posts} />
+      <Profile {...this.props} {...user} posts={posts} />
     )
   }
 }
@@ -36,4 +37,6 @@ ProfileScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 }
 
-export default ProfileScreen
+const ConnectedProfile = connectActionSheet(ProfileScreen)
+
+export default ConnectedProfile

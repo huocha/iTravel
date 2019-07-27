@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, AsyncStorage } from 'react-native'
+import { ButtonLink, ButtonPrimary } from '../components/Button/ButtonComponent';
 import { COLORS, FONTS } from '../utils/constants';
 import firebase from 'firebase';
 
@@ -10,18 +11,21 @@ export default class Login extends React.Component {
       email: "",
       password: "",
       errorMessage: null,
+      isLoading: false,
     }
   }
 
   handleLogin = () => {
     // TODO: Firebase stuff...
     const { email, password } = this.state;
+    this.setState({ isLoading: true });
 
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         const uid = result.user.uid;
         if (uid) {
+          this.setState({ isLoading: false })
           AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid }), () => {
             this.props.navigation.navigate("App");
           });
@@ -40,6 +44,7 @@ export default class Login extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.state;
     return (
       <View style={styles.container}>
         {this.state.errorMessage &&
@@ -67,12 +72,12 @@ export default class Login extends React.Component {
         >
           <Text style={styles.forgotLink}>Forgot password</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={this.handleLogin}
-        >
-          <Text style={styles.loginText}>LOG IN</Text>
-        </TouchableOpacity>
+        <ButtonPrimary
+          isLoading={isLoading}
+          onClick={this.handleLogin}
+          title="LOG IN"
+          viewStyle={{ width: '90%', paddingTop: 30 }}
+        />
 
         <View style={styles.orView}>
           <View style={styles.hairline} />
@@ -82,14 +87,11 @@ export default class Login extends React.Component {
 
         <View style={styles.wrapper}>
           <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.LIGHT_GREY }}>Don't have an account? </Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text style={{ fontFamily: FONTS.MEDIUM, color: COLORS.CYAN }}>SIGN UP</Text>
-          </TouchableOpacity>
-
+          <ButtonLink
+            onClick={()=> this.props.navigation.navigate("Register")}
+            title="SIGN UP"
+          />
         </View>
-
       </View>
     )
   }
