@@ -247,7 +247,7 @@ class ProfileScreen extends Component {
     return (
       <ScrollView style={styles.scroll}>
         <View style={[styles.container, this.props.containerStyle]}>
-          <Dialog
+          {/*<Dialog
             visible={this.state.dialogVisible}
             onTouchOutside={() => this.setDialogVisible(false)}
             width={0.6}
@@ -266,7 +266,7 @@ class ProfileScreen extends Component {
                 <Text style={styles.dialogText}>Desactivate</Text>
               </TouchableOpacity>
             </DialogContent>
-          </Dialog>
+          </Dialog>*/}
           <View style={styles.cardContainer}>
             {this.renderContactHeader()}
             <TabView
@@ -297,7 +297,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   coverContainer: {
-    backgroundColor: 'yellow',
     marginBottom: 55,
     position: 'relative',
   },
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    backgroundColor: 'blue', //'#FFF',
+    backgroundColor: '#FFF',
   },
   indicatorTab: {
     backgroundColor: 'transparent',
@@ -351,7 +350,6 @@ const styles = StyleSheet.create({
     width: 110,
   },
   profileImageContainer: {
-    backgroundColor: 'red',
     bottom: 0,
     left: 10,
     position: 'absolute',

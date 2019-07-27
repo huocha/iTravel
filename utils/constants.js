@@ -15,3 +15,8 @@ export const FONTS = Object.freeze({
     BOLD: 'GT-Walsheim-Bold',
     MEDIUM: 'GT-Walsheim-Medium',
 });
+
+export const IMAGE = Object.freeze({
+  DEFAULT_BACKGROUND: 'https://firebasestorage.googleapis.com/v0/b/awesome-travel-8e0cb.appspot.com/o/default-thumbnail.jpg?alt=media&token=0f7c7769-8591-49b2-864f-1672f549ed89',
+  DEFAULT_AVATAR: 'https://firebasestorage.googleapis.com/v0/b/awesome-travel-8e0cb.appspot.com/o/default-user-image.png?alt=media&token=417027b9-5e94-4715-a555-45386d8c8474'
+})
