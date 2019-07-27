@@ -33,7 +33,7 @@ export default class Register extends React.Component {
         }
       }
 
-      AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid }), () => {
+      AsyncStorage.setItem('userInfos', JSON.stringify({ email, uid: user.uid }), () => {
         this.setState({ isLoading: false })
 
         this.props.navigation.navigate({
@@ -41,9 +41,7 @@ export default class Register extends React.Component {
           params: {},
           action: NavigationActions.navigate({ routeName: 'User' }),
         });
-        
       });
-
     })
   }
 

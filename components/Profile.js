@@ -28,7 +28,7 @@ import PropTypes from 'prop-types'
 import { mansonry } from '../utils/image'
 import Posts from './Post/Posts'
 import { COLORS, FONTS } from '../utils/constants';
-import Fire from '../Fire';
+import { ButtonOutline } from './Button/ButtonComponent';
 import firebase from 'firebase';
 
 class ProfileScreen extends Component {
@@ -71,9 +71,13 @@ class ProfileScreen extends Component {
   }
 
   componentWillMount() {
-    this.setState({
+    /*this.setState({
       postsMasonry: mansonry(this.props.posts, 'imageHeight'),
-    })
+    })*/
+  }
+
+  onEditProfile = () => {
+    console.log('edit')
   }
 
   _handleIndexChange = index => {
@@ -87,27 +91,39 @@ class ProfileScreen extends Component {
 
   _renderHeader = props => {
     return (
-      <TabBar
-        {...props}
-        indicatorStyle={styles.indicatorTab}
-        pressOpacity={0.8}
-        renderLabel={this._renderLabel(props)}
-        style={styles.tabBar}
-      />
+      <View>
+        <TabBar
+          {...props}
+          indicatorStyle={styles.indicatorTab}
+          pressOpacity={0.8}
+          renderLabel={this._renderLabel(props)}
+          style={styles.tabBar}
+        />
+        <View style={{ padding: 5 }}>
+          <Text>{props.bio || 'hello world'}</Text>
+          <ButtonOutline
+            containerStyle={{ height: 28 }}
+            textStyle={{ fontSize: 16 }}
+            title="Edit profile"
+            onClick={this.onEditProfile}
+          />
+        </View>
+      </View>
     )
   }
 
   _renderScene = ({ route: { key } }) => {
-    switch (key) {
+    return (<Text>{key}</Text>)
+    /*switch (key) {
       case '1':
-        return this.renderMansonry2Col()
+        return <Text>{key}</Text>
       case '2':
         return this.renderMansonry2Col()
       case '3':
         return this.renderMansonry2Col()
       default:
         return <p>hello world</p>
-    }
+    }*/
   }
 
   _renderLabel = props => ({ route, index }) => {
@@ -151,21 +167,20 @@ class ProfileScreen extends Component {
             </View>
           </ImageBackground>
         </View>
-
-          <View style={styles.profileImageContainer}>
-            <TouchableHighlight
-              onPress={() => {
-                this.setDialogVisible(true);
-              }}
-            >
-            <Image
-              source={{
-                uri: avatar,
-              }}
-              style={styles.profileImage}
-            />
-            </TouchableHighlight>
-          </View>
+        <View style={styles.profileImageContainer}>
+          <TouchableHighlight
+            onPress={() => {
+              this.setDialogVisible(true);
+            }}
+          >
+          <Image
+            source={{
+              uri: avatar,
+            }}
+            style={styles.profileImage}
+          />
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
@@ -188,24 +203,24 @@ class ProfileScreen extends Component {
       </View>
     )
   }
+
   setDialogVisible = (visible) => {
     this.setState({ dialogVisible: visible });
   }
 
   onLogout = () => {
-    const uid = Fire.shared.uid;
-    if (uid) {
-      firebase.auth().signOut().then(function() {
-        AsyncStorage.removeItem('userInfos');
 
-        this.props.navigation.navigate('Auth');
-      }).catch(function(error) {
-        // An error happened.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        Alert(errorMessage);
-      });
-    }
+    firebase.auth().signOut().then(function() {
+      AsyncStorage.removeItem('userInfos');
+
+      this.props.navigation.navigate('Auth');
+    }).catch(function(error) {
+      // An error happened.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      Alert(errorMessage);
+    });
+
   }
 
   render() {
@@ -263,11 +278,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   coverContainer: {
+    backgroundColor: 'yellow',
     marginBottom: 55,
     position: 'relative',
   },
   coverImage: {
-    height: Dimensions.get('window').width * (3 / 4),
+    height: Dimensions.get('window').width * (1/2),
     width: Dimensions.get('window').width,
   },
   coverMetaContainer: {
@@ -295,7 +311,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: 'blue', //'#FFF',
   },
   indicatorTab: {
     backgroundColor: 'transparent',
@@ -316,6 +332,7 @@ const styles = StyleSheet.create({
     width: 110,
   },
   profileImageContainer: {
+    backgroundColor: 'red',
     bottom: 0,
     left: 10,
     position: 'absolute',
@@ -328,7 +345,6 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: 'transparent',
-    marginBottom: -10,
     marginLeft: 130,
     marginRight: 15,
   },
