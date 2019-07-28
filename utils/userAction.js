@@ -45,7 +45,7 @@ const updateUser = (uid, data) => new Promise((resolve, reject) => {
       userCollection.
         doc(uid)
         .update({...doc.data(), ...data })
-        .then(doc2 => { console.log({doc2}); resolve(doc2); })
+        .then(_ => resolve())
         .catch(error => reject(error) );
     })
     .catch(error => reject(error) );

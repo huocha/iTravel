@@ -6,7 +6,8 @@ const padding = 12;
 const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
-    fontFamily: FONTS.MEDIUM, color: 'white'
+    fontFamily: FONTS.MEDIUM,
+    color: 'white'
   },
   textBlue: {
     fontWeight: '600',

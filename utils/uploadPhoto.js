@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import uuid from 'uuid';
 
 function uploadPhoto(uri, uploadUri) {
   return new Promise(async (res, rej) => {

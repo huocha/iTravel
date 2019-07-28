@@ -10,6 +10,7 @@ class EditProfileScreen extends Component {
     super(props);
     this.state = {}
   }
+
   componentDidMount() {
     getCurrentUser()
     .then(result => {
@@ -17,6 +18,7 @@ class EditProfileScreen extends Component {
     })
     .catch(error => alert(error))
   }
+  
   render() {
     const { user, posts } = this.state
     return (

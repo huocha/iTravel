@@ -19,8 +19,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { ImagePicker, Permissions } from 'expo';
-import { ButtonLink } from '../Button/ButtonComponent';
-import uuid from 'uuid';
+import { ButtonLink, ButtonPrimary } from '../Button/ButtonComponent';
 import { updateUser } from '../../utils/userAction';
 import { uploadImageAsync } from '../../utils/uploadPhoto';
 import firebase from 'firebase';
@@ -35,13 +34,31 @@ class EditProfile extends Component {
     }
   }
 
+  _getPermission = async () => {
+    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    if (permission.status !== 'granted') {
+        const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (newPermission.status === 'granted') {
+          return true;
+        }
+        return false;
+    }
+    return true;
+  }
+
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],
     });
 
-    this._handleImagePicked(pickerResult);
+    let permission = this._getPermission();
+    if (permission) {
+      this._handleImagePicked(pickerResult);
+    }
+    else {
+      Alert("No permission for CAMERA")
+    }
   };
 
   _pickImage = async () => {
@@ -49,8 +66,13 @@ class EditProfile extends Component {
       allowsEditing: true,
       aspect: [4, 3],
     });
-
-    this._handleImagePicked(pickerResult);
+    let permission = this._getPermission();
+    if (permission) {
+      this._handleImagePicked(pickerResult);
+    }
+    else {
+      Alert("No permission for Photo Library")
+    }
   };
 
   _handleImagePicked = async pickerResult => {
@@ -106,11 +128,15 @@ class EditProfile extends Component {
     );
   };
 
+  onSubmit = () => {
+    console.log(this.state);
+  }
+
   render() {
     const { avatar, username, email, bio } = this.props;
     const { uploading, image } = this.state;
     return (
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <View style={styles.imageView}>
           {!uploading ? (
             <Image
@@ -163,6 +189,13 @@ class EditProfile extends Component {
               placeholder="Email"
             />
           </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <ButtonPrimary
+            title="Save"
+            onClick={this.onSubmit}
+            viewStyle={{ width: "90%", paddingTop: 20 }}
+          />
         </View>
       </ScrollView>
     )

@@ -2,7 +2,11 @@ import { StyleSheet } from 'react-native'
 import { COLORS, FONTS } from '../../utils/constants';
 
 const styles = StyleSheet.create({
-  container: {},
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   imageView: {
     display: 'flex',
     paddingVertical: 15,
