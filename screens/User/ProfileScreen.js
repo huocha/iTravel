@@ -16,7 +16,7 @@ class ProfileScreen extends Component {
   componentDidMount() {
     getCurrentUser()
     .then(result => {
-      this.setState({ user: result.user })
+      this.setState({ user: {...result.user, uid: result.uid } })
     })
     .catch(error => alert(error))
   }

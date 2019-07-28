@@ -36,8 +36,19 @@ const getCurrentUser = () => new Promise((resolve, reject) => {
     .catch(error => reject(error))
 });
 
-const updateUser = data => new Promise((resolve, reject) => {
+const updateUser = (uid, data) => new Promise((resolve, reject) => {
+  userCollection
+    .doc(uid)
+    .get()
+    .then(doc => {
 
+      userCollection.
+        doc(uid)
+        .update({...doc.data(), ...data })
+        .then(doc2 => { console.log({doc2}); resolve(doc2); })
+        .catch(error => reject(error) );
+    })
+    .catch(error => reject(error) );
 });
 
 const userSignUp = (data, callback) => {
@@ -77,5 +88,5 @@ const userSignUp = (data, callback) => {
 export {
   userSignUp,
   getCurrentUser,
-
+  updateUser,
 };
