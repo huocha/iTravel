@@ -1,11 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-
-const styles = StyleSheet.create({
-  container: {},
-  postImage: {},
-})
+import styles from './Post.style';
 
 const Post = ({
   containerStyle,

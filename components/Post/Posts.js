@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
 import { Dimensions, ListView, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-
 import Post from './Post'
+import styles from './Posts.style';
 
 const space = 10
 const postContainerWidth = (Dimensions.get('window').width - space * 3) / 2
 
-const styles = StyleSheet.create({
-  container: {},
-  postContainer: {
-    margin: 5,
-    padding: 0,
-    borderWidth: 0,
-  },
-})
 
 class Posts extends Component {
   static propTypes = {

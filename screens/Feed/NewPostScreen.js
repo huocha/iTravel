@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, TextInput, View } from 'react-native';
 import HeaderButtons from 'react-navigation-header-buttons';
 
-import Fire from '../Fire';
+import Fire from '../../Fire';
 
 export default class NewPostScreen extends React.Component<Props> {
   static navigationOptions = ({ navigation }) => ({

@@ -2,7 +2,7 @@ import { Constants, ImagePicker, Permissions } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import getPermission from '../utils/getPermission';
+import getPermission from '../../utils/getPermission';
 
 const options = {
   allowsEditing: true,

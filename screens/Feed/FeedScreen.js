@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { View, LayoutAnimation, RefreshControl } from 'react-native';
 import Search from 'react-native-search-box';
 
-import { COLORS, FONTS } from '../utils/constants';
-import List from '../components/List';
-import Fire from '../Fire';
+import { COLORS, FONTS } from '../../utils/constants';
+import List from '../../components/List';
+import Fire from '../../Fire';
 
 // Set the default number of images to load for each pagination.
 const PAGE_SIZE = 5;

@@ -1,7 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, AsyncStorage } from 'react-native'
-import { ButtonLink, ButtonPrimary } from '../components/Button/ButtonComponent';
-import { COLORS, FONTS } from '../utils/constants';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  TouchableOpacity,
+  AsyncStorage
+} from 'react-native'
+import { ButtonLink, ButtonPrimary } from '../../components/Button/ButtonComponent';
+import { COLORS, FONTS } from '../../utils/constants';
 import firebase from 'firebase';
 
 export default class Login extends React.Component {

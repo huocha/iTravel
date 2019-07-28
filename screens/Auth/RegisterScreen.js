@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
   AsyncStorage
 } from 'react-native'
-import { COLORS, FONTS } from '../utils/constants';
-import { userSignUp } from '../utils/userAction';
+import { COLORS, FONTS } from '../../utils/constants';
+import { userSignUp } from '../../utils/userAction';
 import { NavigationActions } from 'react-navigation';
-import { ButtonLink, ButtonPrimary } from '../components/Button/ButtonComponent';
+import { ButtonLink, ButtonPrimary } from '../../components/Button/ButtonComponent';
 
 export default class Register extends React.Component {
   state = { email: '', password: '', errorMessage: null, isLoading: false }

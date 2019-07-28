@@ -10,12 +10,10 @@ import Fire from './Fire';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
-import FeedScreen from './screens/FeedScreen';
-import NewPostScreen from './screens/NewPostScreen';
-import SelectPhotoScreen from './screens/SelectPhotoScreen';
-import Login from './screens/Login';
-import ProfileScreen from './screens/ProfileScreen';
-import Register from './screens/Register';
+import { FeedScreen, NewPostScreen, SelectPhotoScreen } from './screens/Feed';
+import { LoginScreen, RegisterScreen } from './screens/Auth';
+import { ProfileScreen, EditProfileScreen } from './screens/User';
+
 import { fonts } from './utils/loadRequirements';
 
 // Create our main tab navigator for moving between the Feed and Photo screens
@@ -61,6 +59,13 @@ const AppStack = createStackNavigator(
       // Set the title for our app when the tab bar screen is present
       navigationOptions: { title: 'iTravel' },
     },
+    EditProfile: {
+      screen: EditProfileScreen,
+      navigationOptions: {
+        // header:
+        // title: null
+      }
+    }
   },
   {
     cardStyle: { backgroundColor: 'white' },
@@ -69,8 +74,8 @@ const AppStack = createStackNavigator(
 
 const AuthStack = createSwitchNavigator(
   {
-    Login: Login,
-    Register: Register
+    Login: LoginScreen,
+    Register: RegisterScreen
   }
 );
 const createRootNavigator = (signedIn = false) => {

@@ -77,7 +77,8 @@ class ProfileScreen extends Component {
   }
 
   onEditProfile = () => {
-    console.log('edit')
+    console.log('edit');
+    this.props.navigation.navigate('EditProfile');
   }
 
   _onOpenActionSheet = () => {
