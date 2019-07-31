@@ -12,7 +12,12 @@ import { ButtonLink, ButtonPrimary } from '../../components/Button/ButtonCompone
 import { COLORS, FONTS } from '../../utils/constants';
 import firebase from 'firebase';
 
-export default class Login extends React.Component {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import * as userActions from '../../actions/userActions';
+// import * as i18nActions from '../../actions/i18nActions';
+
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,6 +58,7 @@ export default class Login extends React.Component {
 
   render() {
     const { isLoading } = this.state;
+    console.log(this.props)
     return (
       <View style={styles.container}>
         {this.state.errorMessage &&
@@ -167,3 +173,23 @@ const styles = StyleSheet.create({
   },
 
 })
+
+
+
+function mapStateToProps(state) {
+	return {
+    count: 1
+  };
+}
+
+/*function mapDispatchToProps(dispatch) {
+	return {
+		userActions: bindActionCreators(userActions, dispatch),
+		i18nActions: bindActionCreators(i18nActions, dispatch),
+	};
+}*/
+
+export default connect(
+	mapStateToProps,
+	null
+)(Login);

@@ -15,6 +15,13 @@ import { LoginScreen, RegisterScreen } from './screens/Auth';
 import { ProfileScreen, EditProfileScreen } from './screens/User';
 
 import { fonts } from './utils/loadRequirements';
+import reducers from './reducers';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
+
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
 
 // Create our main tab navigator for moving between the Feed and Photo screens
 const navigator = createBottomTabNavigator(
@@ -137,9 +144,11 @@ class App extends React.Component {
             );
         }
         return (
-          <ActionSheetProvider>
-            <Layout />
-          </ActionSheetProvider>
+          <Provider store={store}>
+            <ActionSheetProvider>
+              <Layout />
+            </ActionSheetProvider>
+          </Provider>
         );
     }
 }
