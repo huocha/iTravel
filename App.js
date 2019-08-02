@@ -11,9 +11,8 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
 import { FeedScreen, NewPostScreen, SelectPhotoScreen } from './screens/Feed';
-import { LoginScreen, RegisterScreen } from './screens/Auth';
+import * as Container from './containers';
 import { ProfileScreen, EditProfileScreen } from './screens/User';
-
 import { fonts } from './utils/loadRequirements';
 import reducers from './reducers';
 import { Provider } from 'react-redux';
@@ -81,8 +80,8 @@ const AppStack = createStackNavigator(
 
 const AuthStack = createSwitchNavigator(
   {
-    Login: LoginScreen,
-    Register: RegisterScreen
+    Login: Container.Login,
+    Register: Container.Register
   }
 );
 const createRootNavigator = (signedIn = false) => {
