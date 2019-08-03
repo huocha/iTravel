@@ -100,20 +100,19 @@ const loginFailure = () => ({
     data: 'credentials.wrong',
 });
 
-const userUpdate = (uid, data) => new Promise((resolve, reject) => {
-  userCollection
-    .doc(uid)
-    .get()
-    .then(doc => {
+const userUpdate = (uid, update) => new Promise((resolve, reject) => {
+//#TODO
+    userCollection.
+      doc(uid)
+      .update(update)
+      .then(_ => resolve())
+      .catch(error => reject(error) );
 
-      userCollection.
-        doc(uid)
-        .update({...doc.data(), ...data })
-        .then(_ => resolve())
-        .catch(error => reject(error) );
-    })
-    .catch(error => reject(error) );
 });
+
+const userUpdateSuccess = () => ({});
+
+const userUpdateFailure = () => ({});
 
 export {
   login,

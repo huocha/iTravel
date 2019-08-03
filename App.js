@@ -121,7 +121,7 @@ class App extends React.Component {
             const infos =
         typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
             // userInfos.set(infos);
-            console.log(infos)
+
             store.dispatch({ type: 'LOGIN_SUCCESS', payload: JSON.parse(usrInfos) });
             this.setState({ signedIn: true })
         }
