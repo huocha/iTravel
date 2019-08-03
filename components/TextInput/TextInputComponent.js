@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TextInput } from 'react-native';
 
 const TextInputComponent = ({value, onChangeText, name, ...props}) => (
     <TextInput
