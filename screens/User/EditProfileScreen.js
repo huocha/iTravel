@@ -11,7 +11,7 @@ class EditProfileScreen extends Component {
   }
 
   render() {
-    const { user, posts } = this.state
+    const { posts } = this.state
     return (
       <EditProfile {...this.props} posts={posts} />
     )

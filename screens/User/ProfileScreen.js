@@ -12,9 +12,7 @@ class ProfileScreen extends Component {
       posts: []
     }
   }
-  componentDidMount() {
-    console.log(this.props.user)
-  }
+
   render() {
     return (
       <Profile {...this.props} posts={this.state.posts} />

@@ -24,13 +24,15 @@ import { updateUser } from '../../utils/userAction';
 import { uploadImageAsync } from '../../utils/uploadPhoto';
 import firebase from 'firebase';
 import styles from './EditProfile.style';
+import { TextInputComponent } from '../TextInput/TextInputComponent';
 
 class EditProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
       uploading: false,
-      image: ''
+      image: '',
+      user: {},
     }
   }
 
@@ -132,9 +134,19 @@ class EditProfile extends Component {
     console.log(this.state);
   }
 
+  onChange = (name, value) => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        [name]: value
+      }
+    })
+  }
+
   render() {
-    const { avatar, username, email, bio } = this.props.user.infos.user;
-    const { uploading, image } = this.state;
+    const { avatar, username, email, bio, website } = this.props.user.infos.user;
+    const { uploading, image, user } = this.state;
+    console.log(this.state)
     return (
       <ScrollView style={styles.container}>
         <View style={styles.imageView}>
@@ -160,30 +172,41 @@ class EditProfile extends Component {
         <View style={styles.inforView}>
           <View style={styles.inputView}>
             <Text style={styles.inputLabel}>Name</Text>
-            <TextInput
+            <TextInputComponent
+              name="username"
+              defaultValue={username}
               style={styles.textInput}
-              value={username || 'huocha'}
+              value={user.username}
               placeholder="Name"
+              onChangeText={this.onChange}
             />
           </View>
           <View style={styles.inputView}>
             <Text style={styles.inputLabel}>Website</Text>
-            <TextInput
+            <TextInputComponent
+              name="website"
+              defaultValue={website}
+              value={user.website}
               style={styles.textInput}
               placeholder="Website"
+              onChangeText={this.onChange}
             />
           </View>
           <View style={styles.inputView}>
             <Text style={styles.inputLabel}>Bio</Text>
-            <TextInput
+            <TextInputComponent
+              name="bio"
+              defaultValue={bio}
+              value={user.bio}
               style={styles.textInput}
-              value={bio || "La vie d'une fille ambitieuse"}
               placeholder="Biography"
+              onChangeText={this.onChange}
             />
           </View>
           <View style={styles.inputView}>
             <Text style={styles.inputLabel}>Email</Text>
             <TextInput
+              editable={false}
               style={styles.textInput}
               value={email}
               placeholder="Email"

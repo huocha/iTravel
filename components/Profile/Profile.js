@@ -53,7 +53,6 @@ class ProfileScreen extends Component {
   }
 
   onEditProfile = () => {
-    console.log('edit');
     this.props.navigation.navigate('EditProfile');
   }
 
