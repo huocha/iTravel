@@ -24,19 +24,20 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    // TODO: Firebase stuff...
     const { email, password } = this.state;
     this.setState({ isLoading: true });
     this.props.userActions.login(email, password, this.props.userActions)
   }
 
-  shouldComponentUpdate(newProps) {
-
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.user.infos && nextProps.user.infos.uid) {
+      this.props.navigation.navigate("App");
+    }
+    return true;
   }
 
   render() {
     const { isLoading } = this.state;
-    console.log(this.props)
     return (
       <View style={styles.container}>
         {this.state.errorMessage &&

@@ -20,20 +20,21 @@ class Register extends React.Component {
     const { email, password } = this.state;
     this.setState({ isLoading: true })
 
-    this.props.userActions.register(email, password)
-      .then(user => {
-        console.log(user);
-        this.props.navigation.navigate({
-          routeName: 'App',
-          params: {},
-          action: NavigationActions.navigate({ routeName: 'User' }),
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      })
+    this.props.userActions.register({ email, password }, this.props.userActions)
+
   }
 
+  shouldComponentUpdate(nextProps) {
+    console.log(nextProps.user)
+    if (nextProps.user.infos && nextProps.user.infos.uid) {
+      this.props.navigation.navigate({
+        routeName: 'App',
+        params: {},
+        action: NavigationActions.navigate({ routeName: 'User' }),
+      });
+    }
+    return true;
+  }
   render() {
     const { email, password, isLoading } = this.state;
 

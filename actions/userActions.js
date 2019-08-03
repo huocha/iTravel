@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+const userCollection = firebase.firestore().collection("users");
 
 const register = (data, userActions) => {
   const { email, password } = data;
@@ -6,7 +7,10 @@ const register = (data, userActions) => {
   const fireAuth = acc => new Promise((resolve, reject) => {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(result => resolve({...acc, uid: result.user.uid }))
+      .then(result => {
+        console.log(result)
+        resolve({...acc, uid: result.user.uid })
+      })
       .catch(error => reject(error));
   });
 
@@ -49,18 +53,44 @@ const registerFailure = err => ({
 });
 
 const login = (email, password, userActions) => {
-  firebase.auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((user) => userActions.loginSuccess(user))
-    .catch((error) => {
-      // Handle Errors here.
-      console.log(error);
-      userActions.loginFailure();
-    });
+  const getUid = acc => new Promise((resolve, reject) => {
+    firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        if (user) {
+          resolve({...acc, uid: user.user.uid });
+          return;
+        }
+        reject();
+      })
+      .catch(error => reject(error));
+  });
 
-    return {
-        type: 'LOGIN',
-    };
+  const getUser = acc => new Promise((resolve, reject) => {
+    if (!acc.uid) { reject(); return; }
+    userCollection.doc(acc.uid).get()
+      .then((doc) => {
+        if (doc.exists) {
+          resolve({...acc, user: doc.data() })
+        } else {
+          resolve(acc);
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+        reject(error);
+      });
+  });
+
+  Promise.resolve({})
+    .then(getUid)
+    .then(getUser)
+    .then(acc => userActions.loginSuccess(acc))
+    .catch(error => userActions.loginFailure(error))
+
+  return {
+      type: 'LOGIN',
+  };
 };
 
 const loginSuccess = response => ({
@@ -73,6 +103,21 @@ const loginFailure = () => ({
     data: 'credentials.wrong',
 });
 
+const userUpdate = (uid, data) => new Promise((resolve, reject) => {
+  userCollection
+    .doc(uid)
+    .get()
+    .then(doc => {
+
+      userCollection.
+        doc(uid)
+        .update({...doc.data(), ...data })
+        .then(_ => resolve())
+        .catch(error => reject(error) );
+    })
+    .catch(error => reject(error) );
+});
+
 export {
   login,
   loginSuccess,
@@ -80,4 +125,5 @@ export {
   register,
   registerSuccess,
   registerFailure,
+  userUpdate,
 }

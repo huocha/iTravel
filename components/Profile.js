@@ -84,7 +84,7 @@ class ProfileScreen extends Component {
   _onOpenActionSheet = () => {
 
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
-    const options = ['Delete', 'Save', 'Cancel'];
+    const options = ['Log out', 'Save', 'Cancel'];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 2;
 
@@ -95,7 +95,13 @@ class ProfileScreen extends Component {
         destructiveButtonIndex,
       },
       buttonIndex => {
-        // Do something here depending on the button index selected
+        switch (buttonIndex) {
+        case 0:
+          this.onLogout()
+          break;
+        default:
+          return;
+        }
       },
     );
   };
