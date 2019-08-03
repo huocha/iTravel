@@ -2,7 +2,7 @@
   "name": "itravel",
   "version": "0.0.0",
   "description": "No description",
-  "author": null,
+  "author": "Jasmine NGUYEN (jasminee.ngx@gmail.com)",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
@@ -13,7 +13,9 @@
     "react": "16.4.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-animatable": "^1.3.2",
+    "react-native-gesture-handler": "^1.3.0",
     "react-native-popup-dialog": "^0.18.3",
+    "react-native-reanimated": "^1.1.0",
     "react-native-search-box": "^0.0.19",
     "react-native-tab-view": "^2.9.0",
     "react-navigation": "2.6.0",

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { ProfileScreen } from '../../screens/User';
+import { EditProfileScreen } from '../../screens/User';
 import * as userActions from '../../actions/userActions';
 
-class ProfileContainer extends Component {
+class EditProfileContainer extends Component {
   constructor(props){
     super(props)
   }
   render(){
 		return(
-			<ProfileScreen {...this.props}/>
+			<EditProfileScreen {...this.props}/>
 		);
 	}
 }
@@ -30,4 +30,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(ProfileContainer);
+)(EditProfileContainer);

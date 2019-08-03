@@ -32,30 +32,6 @@ import { ButtonOutline } from '../Button/ButtonComponent';
 import firebase from 'firebase';
 
 class ProfileScreen extends Component {
-  static propTypes = {
-    avatar: PropTypes.string.isRequired,
-    avatarBackground: PropTypes.string.isRequired,
-    bio: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    tabContainerStyle: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.object,
-    ]),
-    posts: PropTypes.arrayOf(
-      PropTypes.shape({
-        image: PropTypes.string,
-        imageHeight: PropTypes.number,
-        imageWidth: PropTypes.number,
-        postWidth: PropTypes.number,
-      })
-    ).isRequired,
-  }
-
-  static defaultProps = {
-    containerStyle: {},
-    tabContainerStyle: {},
-  }
 
   state = {
     tabs: {
@@ -174,7 +150,8 @@ class ProfileScreen extends Component {
   }
 
   renderContactHeader = () => {
-    const { avatar, avatarBackground, name, bio } = this.props
+    const { avatar, avatarBackground, name, bio } = this.props.user.infos.user;
+
     return (
       <View style={styles.headerContainer}>
         <View style={styles.coverContainer}>
@@ -290,6 +267,31 @@ class ProfileScreen extends Component {
     )
   }
 }
+
+/*ProfileScreen.propTypes = {
+  avatar: PropTypes.string.isRequired,
+  avatarBackground: PropTypes.string.isRequired,
+  bio: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  tabContainerStyle: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+  ]),
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string,
+      imageHeight: PropTypes.number,
+      imageWidth: PropTypes.number,
+      postWidth: PropTypes.number,
+    })
+  ).isRequired,
+}
+
+ProfileScreen.defaultProps = {
+  containerStyle: {},
+  tabContainerStyle: {},
+}*/
 
 const styles = StyleSheet.create({
   cardContainer: {

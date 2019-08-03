@@ -12,12 +12,13 @@ import tabBarIcon from './utils/tabBarIcon';
 // Import the screens
 import { FeedScreen, NewPostScreen, SelectPhotoScreen } from './screens/Feed';
 import * as Container from './containers';
-import { ProfileScreen, EditProfileScreen } from './screens/User';
 import { fonts } from './utils/loadRequirements';
 import reducers from './reducers';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
+
+import * as userActions from './actions/userActions';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -66,7 +67,7 @@ const AppStack = createStackNavigator(
       navigationOptions: { title: 'iTravel' },
     },
     EditProfile: {
-      screen: EditProfileScreen,
+      screen: Container.EditProfile,
       navigationOptions: {
         // header:
         // title: null
@@ -116,11 +117,12 @@ class App extends React.Component {
         await Font.loadAsync(fonts);
 
         const usrInfos = await AsyncStorage.getItem('userInfos');
-
         if (usrInfos) {
             const infos =
         typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
             // userInfos.set(infos);
+            console.log(infos)
+            store.dispatch({ type: 'LOGIN_SUCCESS', payload: JSON.parse(usrInfos) });
             this.setState({ signedIn: true })
         }
         this.setState({ isReady: true });

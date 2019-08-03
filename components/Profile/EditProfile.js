@@ -133,7 +133,7 @@ class EditProfile extends Component {
   }
 
   render() {
-    const { avatar, username, email, bio } = this.props;
+    const { avatar, username, email, bio } = this.props.user.infos.user;
     const { uploading, image } = this.state;
     return (
       <ScrollView style={styles.container}>

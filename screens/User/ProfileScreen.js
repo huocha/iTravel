@@ -9,21 +9,15 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
       posts: []
     }
   }
   componentDidMount() {
-    getCurrentUser()
-    .then(result => {
-      this.setState({ user: {...result.user, uid: result.uid } })
-    })
-    .catch(error => alert(error))
+    console.log(this.props.user)
   }
   render() {
-    const { user, posts } = this.state
     return (
-      <Profile {...this.props} {...user} posts={posts} />
+      <Profile {...this.props} posts={this.state.posts} />
     )
   }
 }
