@@ -7,10 +7,7 @@ const register = (data, userActions) => {
   const fireAuth = acc => new Promise((resolve, reject) => {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(result => {
-        console.log(result)
-        resolve({...acc, uid: result.user.uid })
-      })
+      .then(result => resolve({...acc, uid: result.user.uid }))
       .catch(error => reject(error));
   });
 

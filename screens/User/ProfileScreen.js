@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getCurrentUser } from '../../utils/userAction';
 import firebase from 'firebase';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import Profile from '../../components/Profile';
+import Profile from '../../components/Profile/Profile';
 
 class ProfileScreen extends Component {
   constructor(props) {

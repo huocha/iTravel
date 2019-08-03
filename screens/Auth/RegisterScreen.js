@@ -14,18 +14,14 @@ import { ButtonLink, ButtonPrimary } from '../../components/Button/ButtonCompone
 import styles from './RegisterScreen.style.js';
 
 class Register extends React.Component {
-  state = { email: '', password: '', errorMessage: null, isLoading: false }
+  state = { email: '', password: '' }
 
   handleSignUp = () => {
     const { email, password } = this.state;
-    this.setState({ isLoading: true })
-
     this.props.userActions.register({ email, password }, this.props.userActions)
-
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log(nextProps.user)
     if (nextProps.user.infos && nextProps.user.infos.uid) {
       this.props.navigation.navigate({
         routeName: 'App',
@@ -35,9 +31,10 @@ class Register extends React.Component {
     }
     return true;
   }
+  
   render() {
-    const { email, password, isLoading } = this.state;
-
+    const { email, password } = this.state;
+    const { user } = this.props;
     return (
       <View style={styles.container}>
 
@@ -67,7 +64,7 @@ class Register extends React.Component {
         </View>
 
         <ButtonPrimary
-          isLoading={isLoading}
+          isLoading={user.isLoading}
           onClick={this.handleSignUp}
           title="SIGN UP"
           viewStyle={{ width: '90%', paddingTop: 30 }}

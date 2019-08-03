@@ -13,19 +13,10 @@ import firebase from 'firebase';
 import styles from './LoginScreen.style.js';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      errorMessage: null,
-      isLoading: false,
-    }
-  }
+  state = { email: '', password: '' }
 
   handleLogin = () => {
     const { email, password } = this.state;
-    this.setState({ isLoading: true });
     this.props.userActions.login(email, password, this.props.userActions)
   }
 
@@ -37,13 +28,9 @@ class Login extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { user } = this.props;
     return (
       <View style={styles.container}>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
         <TextInput
           style={styles.textInput}
           autoCapitalize="none"
@@ -66,7 +53,7 @@ class Login extends React.Component {
           <Text style={styles.forgotLink}>Forgot password</Text>
         </TouchableOpacity>
         <ButtonPrimary
-          isLoading={isLoading}
+          isLoading={user.isLoading}
           onClick={this.handleLogin}
           title="LOG IN"
           viewStyle={{ width: '90%', paddingTop: 30 }}

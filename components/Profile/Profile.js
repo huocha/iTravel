@@ -25,10 +25,10 @@ import {
   TabViewPagerScroll,
 } from 'react-native-tab-view'
 import PropTypes from 'prop-types'
-import { mansonry } from '../utils/image'
-import Posts from './Post/Posts'
-import { COLORS, FONTS } from '../utils/constants';
-import { ButtonOutline } from './Button/ButtonComponent';
+import { mansonry } from '../../utils/image'
+import Posts from '../Post/Posts'
+import { COLORS, FONTS } from '../../utils/constants';
+import { ButtonOutline } from '../Button/ButtonComponent';
 import firebase from 'firebase';
 
 class ProfileScreen extends Component {

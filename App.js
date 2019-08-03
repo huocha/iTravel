@@ -42,7 +42,7 @@ const navigator = createBottomTabNavigator(
       },
     },*/
     User: {
-      screen: ProfileScreen,
+      screen: Container.Profile,
       navigationOptions: {
         tabBarIcon: tabBarIcon('person'),
       },
