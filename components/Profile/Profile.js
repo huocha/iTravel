@@ -150,7 +150,7 @@ class ProfileScreen extends Component {
 
   renderContactHeader = () => {
     const { avatar, avatarBackground, name, bio } = this.props.user.infos.user;
-
+    console.log()
     return (
       <View style={styles.headerContainer}>
         <View style={styles.coverContainer}>

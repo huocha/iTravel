@@ -5,16 +5,10 @@ import {
   Image,
   ImageBackground,
   TextInput,
-  Platform,
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Dimensions,
-  Modal,
-  TouchableHighlight,
-  TouchableOpacity,
-  Button,
   AsyncStorage,
   ActivityIndicator,
 } from 'react-native'
@@ -30,8 +24,6 @@ class EditProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      uploading: false,
-      image: '',
       user: {},
     }
   }
@@ -79,23 +71,17 @@ class EditProfile extends Component {
 
   _handleImagePicked = async pickerResult => {
     try {
-      this.setState({ uploading: true });
-
+      const uid = this.props.user.infos.uid
       if (!pickerResult.cancelled) {
-        uploadUrl = await uploadImageAsync(this.props.uid, pickerResult.uri);
+        uploadUrl = await uploadImageAsync(uid, pickerResult.uri);
+        const update = { avatar: uploadUrl };
 
-        this.setState({ image: uploadUrl });
-        updateUser(this.props.uid, { avatar: uploadUrl })
-          .catch(error => {
-            console.log(error)
-            Alert("Error!")
-          })
+        this.props.userActions.userUpdate(uid, update, this.props.userActions)
+
       }
     } catch (e) {
       console.log(e);
-      Alert('Upload failed, sorry :(');
-    } finally {
-      this.setState({ uploading: false });
+      alert('Upload failed, sorry :(');
     }
   };
 
@@ -131,7 +117,12 @@ class EditProfile extends Component {
   };
 
   onSubmit = () => {
-    console.log(this.state);
+    const { user } = this.props;
+    if (!Object.keys(this.state.user).length) { alert("Nothing to update!"); return; }
+    if (!user || !user.infos ) { alert("Error!"); return; }
+
+    this.props.userActions
+      .userUpdate(this.props.user.infos.uid, this.state.user, this.props.userActions);
   }
 
   onChange = (name, value) => {
@@ -144,23 +135,24 @@ class EditProfile extends Component {
   }
 
   render() {
+
     const { avatar, username, email, bio, website } = this.props.user.infos.user;
-    const { uploading, image, user } = this.state;
-    console.log(this.state)
+    const { user } = this.state;
+
     return (
       <ScrollView style={styles.container}>
         <View style={styles.imageView}>
-          {!uploading ? (
+          {!this.props.user.isLoading ? (
             <Image
               source={{
-                uri: image || avatar,
+                uri: avatar,
               }}
               style={styles.profileImage}
             />
           )
           : (
             <ActivityIndicator
-              animating={uploading}
+              animating={this.props.user.isLoading}
             />
           )}
           <ButtonLink

@@ -117,11 +117,8 @@ class App extends React.Component {
         await Font.loadAsync(fonts);
 
         const usrInfos = await AsyncStorage.getItem('userInfos');
+        //await AsyncStorage.removeItem('userInfos');
         if (usrInfos) {
-            const infos =
-        typeof usrInfos === 'string' ? JSON.parse(usrInfos) : usrInfos;
-            // userInfos.set(infos);
-
             store.dispatch({ type: 'LOGIN_SUCCESS', payload: JSON.parse(usrInfos) });
             this.setState({ signedIn: true })
         }

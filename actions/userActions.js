@@ -100,19 +100,31 @@ const loginFailure = () => ({
     data: 'credentials.wrong',
 });
 
-const userUpdate = (uid, update) => new Promise((resolve, reject) => {
-//#TODO
-    userCollection.
-      doc(uid)
-      .update(update)
-      .then(_ => resolve())
-      .catch(error => reject(error) );
+const userUpdate = (uid, update, userActions) => {
 
+  userCollection
+    .doc(uid)
+    .update(update)
+    .then(() => {
+      //userCollection.doc(uid).get().then(result => console.log(result.data()))
+      userActions.userUpdateSuccess(update);
+    })
+    .catch(error => userActions.userUpdateFailure(error));
+
+  return {
+    type: 'UPDATE_USER'
+  }
+}
+
+const userUpdateSuccess = response => ({
+  type: 'UPDATE_USER_SUCCESS',
+  payload: response
 });
 
-const userUpdateSuccess = () => ({});
-
-const userUpdateFailure = () => ({});
+const userUpdateFailure = (error) => ({
+  type: 'UPDATE_USER_FAILURE',
+  data: error
+});
 
 export {
   login,
@@ -122,4 +134,6 @@ export {
   registerSuccess,
   registerFailure,
   userUpdate,
+  userUpdateSuccess,
+  userUpdateFailure
 }
