@@ -88,9 +88,14 @@ class EditProfile extends Component {
   _onOpenActionSheet = () => {
 
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
-    const options = ['Delete', 'Take Photo', 'Choose From Library', 'Cancel'];
+    const options = ['Delete',
+    'Take Photo Avatar',
+    'Choose Avatar From Library',
+    'Take Photo Background',
+    'Choose Background From Library',
+    'Cancel'];
     const destructiveButtonIndex = 0;
-    const cancelButtonIndex = 3;
+    const cancelButtonIndex = 5;
 
     this.props.showActionSheetWithOptions(
       {
@@ -136,31 +141,27 @@ class EditProfile extends Component {
 
   render() {
 
-    const { avatar, username, email, bio, website } = this.props.user.infos.user;
+    const { avatarBackground, avatar, username, email, bio, website } = this.props.user.infos.user;
     const { user } = this.state;
 
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.imageView}>
-          {!this.props.user.isLoading ? (
+        <ImageBackground
+          source={{
+            uri: avatarBackground,
+          }}
+          style={styles.coverImage}
+        >
+          <View style={styles.imageView}>
             <Image
               source={{
                 uri: avatar,
               }}
               style={styles.profileImage}
             />
-          )
-          : (
-            <ActivityIndicator
-              animating={this.props.user.isLoading}
-            />
-          )}
-          <ButtonLink
-            title='Change profile picture'
-            onClick={this._onOpenActionSheet}
-            viewStyle={{ paddingTop: 5 }}
-          />
-        </View>
+          </View>
+        </ImageBackground>
+
         <View style={styles.inforView}>
           <View style={styles.inputView}>
             <Text style={styles.inputLabel}>Name</Text>
@@ -206,7 +207,13 @@ class EditProfile extends Component {
           </View>
         </View>
         <View style={styles.buttonContainer}>
+          <ButtonLink
+            title='Change picture'
+            onClick={this._onOpenActionSheet}
+            viewStyle={{ paddingTop: 20 }}
+          />
           <ButtonPrimary
+            isLoading={this.props.user.isLoading}
             title="Save"
             onClick={this.onSubmit}
             viewStyle={{ width: "90%", paddingTop: 20 }}

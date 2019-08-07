@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { COLORS, FONTS } from '../../utils/constants';
 
 const styles = StyleSheet.create({
@@ -9,9 +9,13 @@ const styles = StyleSheet.create({
   },
   imageView: {
     display: 'flex',
-    paddingVertical: 15,
+    paddingTop: 40,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  coverImage: {
+    height: Dimensions.get('window').width * (1/2),
+    width: Dimensions.get('window').width,
   },
   profileImage: {
     borderColor: '#FFF',
