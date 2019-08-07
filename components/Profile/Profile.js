@@ -34,18 +34,20 @@ import firebase from 'firebase';
 import styles from './Profile.style';
 
 class ProfileScreen extends Component {
-
-  state = {
-    tabs: {
-      index: 0,
-      routes: [
-        { key: '1', title: 'PHOTOS', count: 687 },
-        { key: '3', title: 'FOLLOWERS', count: '1.3 M' },
-        { key: '2', title: 'FOLLOWING', count: 90 },
-      ],
-    },
-    postsMasonry: {},
-    dialogVisible: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabs: {
+        index: 0,
+        routes: [
+          { key: '1', title: 'PHOTOS', count: 687 },
+          { key: '3', title: 'FOLLOWERS', count: '1.3 M' },
+          { key: '2', title: 'FOLLOWING', count: 90 },
+        ],
+      },
+      postsMasonry: {},
+      dialogVisible: false,
+    }
   }
 
   componentWillMount() {
@@ -92,6 +94,18 @@ class ProfileScreen extends Component {
     })
   }
 
+  _renderBio = () => {
+    const { bio, username, website } = this.props.user.infos.user;
+
+    return (
+      <View style={{ paddingVertical: 15 }}>
+        <Text style={styles.textBold}>{username}</Text>
+        <Text style={styles.textRegular}>{bio}</Text>
+        <Text style={styles.textRegular}>{website}</Text>
+      </View>
+    )
+  }
+
   _renderHeader = props => {
     return (
       <View>
@@ -102,8 +116,8 @@ class ProfileScreen extends Component {
           renderLabel={this._renderLabel(props)}
           style={styles.tabBar}
         />
-        <View style={{ padding: 5, backgroundColor: 'red' }}>
-          <Text>{"hello"}</Text>
+        <View style={{ paddingHorizontal: 20 }}>
+          {this._renderBio()}
           <ButtonOutline
             containerStyle={{ height: 28 }}
             textStyle={{ fontSize: 16 }}

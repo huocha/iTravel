@@ -2,6 +2,12 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { COLORS, FONTS } from '../../utils/constants';
 
 const styles = StyleSheet.create({
+  textRegular: {
+    fontFamily: FONTS.REGULAR,
+  },
+  textBold: {
+    fontFamily: FONTS.BOLD,
+  },
   cardContainer: {
     flex: 1,
   },
@@ -28,9 +34,8 @@ const styles = StyleSheet.create({
   },
   coverName: {
     color: '#FFF',
-    fontSize: 28,
-    fontWeight: 'bold',
-    paddingBottom: 2,
+    fontFamily: FONTS.BOLD,
+    fontSize: 24,
   },
   coverTitle: {
     color: '#FFF',
