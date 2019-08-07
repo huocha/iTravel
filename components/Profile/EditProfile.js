@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Animated,
   Image,
   ImageBackground,
   TextInput,
   ScrollView,
   Text,
   View,
-  Dimensions,
-  AsyncStorage,
   ActivityIndicator,
-} from 'react-native'
+} from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
-import { ButtonLink, ButtonPrimary } from '../Button/ButtonComponent';
-import { updateUser } from '../../utils/userAction';
-import { uploadImageAsync } from '../../utils/uploadPhoto';
-import firebase from 'firebase';
-import styles from './EditProfile.style';
 import { TextInputComponent } from '../TextInput/TextInputComponent';
+import { ButtonLink, ButtonPrimary } from '../Button/ButtonComponent';
+import { uploadImageAsync } from '../../utils/uploadPhoto';
+import styles from './EditProfile.style';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -40,7 +35,7 @@ class EditProfile extends Component {
     return true;
   }
 
-  _takePhoto = async () => {
+  _takePhoto = async (type) => {
     let pickerResult = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -48,33 +43,34 @@ class EditProfile extends Component {
 
     let permission = this._getPermission();
     if (permission) {
-      this._handleImagePicked(pickerResult);
+      this._handleImagePicked(pickerResult, type);
     }
     else {
       Alert("No permission for CAMERA")
     }
   };
 
-  _pickImage = async () => {
+  _pickImage = async (type) => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
     });
     let permission = this._getPermission();
     if (permission) {
-      this._handleImagePicked(pickerResult);
+      this._handleImagePicked(pickerResult, type);
     }
     else {
       Alert("No permission for Photo Library")
     }
   };
 
-  _handleImagePicked = async pickerResult => {
+  _handleImagePicked = async (pickerResult, type) => {
     try {
       const uid = this.props.user.infos.uid
       if (!pickerResult.cancelled) {
         uploadUrl = await uploadImageAsync(uid, pickerResult.uri);
-        const update = { avatar: uploadUrl };
+
+        const update = { [type]: uploadUrl };
 
         this.props.userActions.userUpdate(uid, update, this.props.userActions)
 
@@ -89,11 +85,12 @@ class EditProfile extends Component {
 
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = ['Delete',
-    'Take Photo Avatar',
-    'Choose Avatar From Library',
-    'Take Photo Background',
-    'Choose Background From Library',
-    'Cancel'];
+      'Take Photo Avatar',
+      'Choose Avatar From Library',
+      'Take Photo Background',
+      'Choose Background From Library',
+      'Cancel'
+    ];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 5;
 
@@ -107,12 +104,16 @@ class EditProfile extends Component {
         // Do something here depending on the button index selected
         switch (buttonIndex) {
           case 1:
-            this._takePhoto();
+            this._takePhoto("avatar");
             break;
           case 2:
-            this._pickImage();
+            this._pickImage("avatar");
             break;
           case 3:
+            this._takePhoto("avatarBackground")
+            break;
+          case 4:
+            this._pickImage("avatarBackground")
             break;
           default:
 
@@ -214,7 +215,7 @@ class EditProfile extends Component {
           />
           <ButtonPrimary
             isLoading={this.props.user.isLoading}
-            title="Save"
+            title="Done"
             onClick={this.onSubmit}
             viewStyle={{ width: "90%", paddingTop: 20 }}
           />

@@ -1,3 +1,7 @@
+/*
+* author: Jasmine (jasminee.ngx@gmail.com)
+* #TODO: remove the old image when updating
+*/
 import React, { Component } from 'react'
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {
