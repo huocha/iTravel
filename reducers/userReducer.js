@@ -64,7 +64,13 @@ export default function (state = initialState, action) {
 
 	case 'UPDATE_USER_FAILURE':
 		return {...state, isLoading: false, error: action.payload };
-
+	case 'LOG_OUT':
+		return state;
+	case 'LOG_OUT_SUCCESS':
+		return { ...state, infos: {} };
+	case 'LOG_OUT_FAILURE':
+		return state;
+		
 	default:
 		return state;
 	}

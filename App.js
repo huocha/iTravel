@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StatusBar, AsyncStorage } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, StatusBar, AsyncStorage, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { Asset, Font, Image } from 'expo';
 import {
   createBottomTabNavigator,
@@ -9,9 +9,11 @@ import {
 import Fire from './Fire';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import tabBarIcon from './utils/tabBarIcon';
+import Drawer from 'react-native-drawer';
 // Import the screens
 import { FeedScreen, NewPostScreen, SelectPhotoScreen } from './screens/Feed';
 import * as Container from './containers';
+import ControlPanel from './components/Drawer/ControlPanelComponent';
 import { fonts } from './utils/loadRequirements';
 import reducers from './reducers';
 import { Provider, connect } from 'react-redux';
@@ -85,6 +87,7 @@ const AuthStack = createSwitchNavigator(
     Register: Container.Register
   }
 );
+
 const createRootNavigator = (signedIn = false) => {
    return createSwitchNavigator(
     {
@@ -96,12 +99,15 @@ const createRootNavigator = (signedIn = false) => {
     }
   );
 }
+
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
             isReady: false,
             signedIn: false,
+            drawerOpen: false,
+            drawerDisabled: false,
         };
     }
 
@@ -117,14 +123,23 @@ class App extends React.Component {
         await Font.loadAsync(fonts);
 
         const usrInfos = await AsyncStorage.getItem('userInfos');
-        //await AsyncStorage.removeItem('userInfos');
+        // await AsyncStorage.removeItem('userInfos');
         if (usrInfos) {
+            //console.log(usrInfos)
             store.dispatch({ type: 'LOGIN_SUCCESS', payload: JSON.parse(usrInfos) });
             this.setState({ signedIn: true })
         }
         this.setState({ isReady: true });
     }
 
+    closeDrawer = () => {
+      console.log('close')
+      this._drawer.close()
+    };
+
+    openDrawer = () => {
+      this._drawer.open()
+    };
     render() {
         const { signedIn, isReady } = this.state;
         const Layout = createRootNavigator(signedIn)
@@ -143,9 +158,35 @@ class App extends React.Component {
         }
         return (
           <Provider store={store}>
-            <ActionSheetProvider>
-              <Layout />
-            </ActionSheetProvider>
+            <Drawer
+              ref={(ref) => this._drawer = ref}
+              type="static"
+              side="right"
+              content={
+                <ControlPanel closeDrawer={this.closeDrawer} />
+              }
+              open={this.state.drawerOpen}
+              acceptDoubleTap
+              styles={{main: {shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15}}}
+              onOpen={() => {
+                console.log('onopen')
+                this.setState({drawerOpen: true})
+              }}
+              onClose={() => {
+                console.log('onclose')
+                this.setState({drawerOpen: false})
+              }}
+              openDrawerOffset={(viewport) => {
+                const { width } = viewport;
+                return width * 0.6
+              }}
+              captureGestures={false}
+              disabled={this.state.drawerDisabled}
+            >
+              <ActionSheetProvider>
+                <Layout />
+              </ActionSheetProvider>
+            </Drawer>
           </Provider>
         );
     }

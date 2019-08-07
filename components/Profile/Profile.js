@@ -23,13 +23,15 @@ import {
   TabViewAnimated,
   TabViewPagerPan,
   TabViewPagerScroll,
-} from 'react-native-tab-view'
+} from 'react-native-tab-view';
+
 import PropTypes from 'prop-types'
 import { mansonry } from '../../utils/image'
 import Posts from '../Post/Posts'
 import { COLORS, FONTS } from '../../utils/constants';
 import { ButtonOutline } from '../Button/ButtonComponent';
 import firebase from 'firebase';
+import styles from './Profile.style';
 
 class ProfileScreen extends Component {
 
@@ -100,8 +102,8 @@ class ProfileScreen extends Component {
           renderLabel={this._renderLabel(props)}
           style={styles.tabBar}
         />
-        <View style={{ padding: 5 }}>
-          <Text>{props.bio || 'hello world'}</Text>
+        <View style={{ padding: 5, backgroundColor: 'red' }}>
+          <Text>{"hello"}</Text>
           <ButtonOutline
             containerStyle={{ height: 28 }}
             textStyle={{ fontSize: 16 }}
@@ -149,8 +151,8 @@ class ProfileScreen extends Component {
   }
 
   renderContactHeader = () => {
-    const { avatar, avatarBackground, name, bio } = this.props.user.infos.user;
-    console.log()
+    const { avatar, avatarBackground, username, bio } = this.props.user.infos.user;
+
     return (
       <View style={styles.headerContainer}>
         <View style={styles.coverContainer}>
@@ -164,8 +166,7 @@ class ProfileScreen extends Component {
               <Text style={styles.coverTitle} />
             </View>
             <View style={styles.coverMetaContainer}>
-              <Text style={styles.coverName}>{name}</Text>
-              <Text style={styles.coverBio}>{bio}</Text>
+              <Text style={styles.coverName}>{username}</Text>
             </View>
           </ImageBackground>
         </View>
@@ -292,124 +293,4 @@ ProfileScreen.defaultProps = {
   tabContainerStyle: {},
 }*/
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  coverBio: {
-    color: '#FFF',
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  coverContainer: {
-    marginBottom: 55,
-    position: 'relative',
-  },
-  coverImage: {
-    height: Dimensions.get('window').width * (1/2),
-    width: Dimensions.get('window').width,
-  },
-  coverMetaContainer: {
-    backgroundColor: 'transparent',
-    paddingBottom: 10,
-    paddingLeft: 135,
-  },
-  coverName: {
-    color: '#FFF',
-    fontSize: 28,
-    fontWeight: 'bold',
-    paddingBottom: 2,
-  },
-  coverTitle: {
-    color: '#FFF',
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  coverTitleContainer: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: 45,
-  },
-  headerContainer: {
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-  },
-  indicatorTab: {
-    backgroundColor: 'transparent',
-  },
-  mansonryContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  profileImage: {
-    borderColor: '#FFF',
-    borderRadius: 55,
-    borderWidth: 3,
-    height: 110,
-    width: 110,
-  },
-  profileImageContainer: {
-    bottom: 0,
-    left: 10,
-    position: 'absolute',
-  },
-  sceneContainer: {
-    marginTop: 10,
-  },
-  scroll: {
-    backgroundColor: '#FFF',
-  },
-  tabBar: {
-    backgroundColor: 'transparent',
-    marginLeft: 130,
-    marginRight: 15,
-  },
-  tabContainer: {
-    flex: 1,
-    marginBottom: 12,
-    marginTop: -55,
-    position: 'relative',
-    zIndex: 10,
-  },
-  tabRow: {
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flex: 1,
-  },
-  tabLabelNumber: {
-    color: COLORS.MAIN_BLUE_COLOR,
-    fontSize: 22,
-    textAlign: 'center',
-    marginBottom: 2,
-  },
-  tabLabelText: {
-    color: COLORS.MAIN_BLUE_COLOR,
-    fontSize: 9,
-    textAlign: 'left',
-  },
-  dialogTouch: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 10,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(0,0,0,0.3)',
-  },
-  dialogText: {
-    color: COLORS.MAIN_BLUE_COLOR,
-    fontFamily: FONTS.MEDIUM,
-    fontSize: 18
-  }
-})
 export default ProfileScreen
