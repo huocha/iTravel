@@ -22,9 +22,7 @@ class Fire {
     };
 
     firebase.initializeApp(firebaseConfig);
-    // Some nonsense...
-    firebase.firestore().settings({ timestampsInSnapshots: true });
-
+    
     // Listen for auth
     firebase.auth().onAuthStateChanged(async user => {
       if (!user) {

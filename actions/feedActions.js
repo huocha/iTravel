@@ -23,7 +23,7 @@ const getFeed = (size, start, feedActions) => {
 
       return feedActions.getFeedSuccess({ data, cursor: lastVisible })
     })
-    .catch(error => { console.log(error); return feedActions.getFeedFailure(error)})
+    .catch(error => feedActions.getFeedFailure(error))
 
   return {
     type: 'GET_FEED'

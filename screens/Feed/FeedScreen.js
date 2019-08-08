@@ -94,6 +94,8 @@ export default class FeedScreen extends Component {
           cancelButtonTextStyle={{ fontFamily: FONTS.MEDIUM }}
         />
         <List
+          user={this.props.user}
+          userActions={this.props.userActions}
           refreshControl={
             <RefreshControl
               refreshing={feed.loading}

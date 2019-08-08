@@ -7,23 +7,7 @@ import styles from './Posts.style';
 const space = 10
 const postContainerWidth = (Dimensions.get('window').width - space * 3) / 2
 
-
 class Posts extends Component {
-  static propTypes = {
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    posts: PropTypes.arrayOf(
-      PropTypes.shape({
-        image: PropTypes.string,
-        imageHeight: PropTypes.number,
-        imageWidth: PropTypes.number,
-      })
-    ).isRequired,
-  }
-
-  static defaultProps = {
-    containerStyle: {},
-  }
-
   state = {
     postDS: new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
@@ -50,6 +34,22 @@ class Posts extends Component {
       />
     )
   }
+}
+
+
+Posts.propTypes = {
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string,
+      imageHeight: PropTypes.number,
+      imageWidth: PropTypes.number,
+    })
+  ).isRequired,
+}
+
+Posts.defaultProps = {
+  containerStyle: {},
 }
 
 export default Posts

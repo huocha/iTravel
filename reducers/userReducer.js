@@ -19,6 +19,35 @@ const applyUpdateUser = (state, action) => {
 	}
 }
 
+const applyUserLike = (state, action) => {
+	let { user } = state.infos;
+	const alreadyExisted = user.likes.find(like => like === action.payload);
+	if (alreadyExisted) { return;}
+	
+	user.likes = user.likes.concat(action.payload);
+
+	const newInfos = { ...state.infos, user };
+
+	userInfos.set(newInfos)
+	return {
+		...state,
+		infos: newInfos
+	}
+}
+
+const applyUserDisLike = (state, action) => {
+	let { user } = state.infos;
+	user.likes = user.likes.filter(like => like !== action.payload);
+
+	const newInfos = { ...state.infos, user };
+
+	userInfos.set(newInfos)
+	return {
+		...state,
+		infos: newInfos
+	}
+}
+
 export default function (state = initialState, action) {
 	switch (action.type) {
 	case 'LOGIN':
@@ -70,7 +99,12 @@ export default function (state = initialState, action) {
 		return { ...state, infos: {} };
 	case 'LOG_OUT_FAILURE':
 		return state;
-		
+	case 'USER_LIKE':
+		return state;
+	case 'USER_LIKE_SUCCESS':
+		return applyUserLike(state, action)
+	case 'USER_DISLIKE_SUCCESS':
+		return applyUserDisLike(state, action)
 	default:
 		return state;
 	}

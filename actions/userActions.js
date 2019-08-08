@@ -1,5 +1,6 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 const userCollection = firebase.firestore().collection("users");
+const FieldValue = firebase.firestore.FieldValue;
 
 const register = (data, userActions) => {
   const { email, password } = data;
@@ -106,7 +107,6 @@ const userUpdate = (uid, update, userActions) => {
     .doc(uid)
     .update(update)
     .then(() => {
-      //userCollection.doc(uid).get().then(result => console.log(result.data()))
       userActions.userUpdateSuccess(update);
     })
     .catch(error => userActions.userUpdateFailure(error));
@@ -126,6 +126,48 @@ const userUpdateFailure = (error) => ({
   data: error
 });
 
+const userLike = (uid, postId, userActions) => {
+
+  const update = { likes: firebase.firestore.FieldValue.arrayUnion(postId) }
+  userCollection
+    .doc(uid)
+    .update(update)
+    .then(() => {
+      userActions.userLikeSuccess(postId);
+    })
+    .catch(error => console.log(error));
+
+  return {
+    type: 'USER_LIKE'
+  }
+}
+
+const userLikeSuccess = (response) => ({
+  type: 'USER_LIKE_SUCCESS',
+  payload: response
+})
+
+const userDislike = (uid, postId, userActions) => {
+
+  const update = { likes: firebase.firestore.FieldValue.arrayRemove(postId) }
+  userCollection
+    .doc(uid)
+    .update(update)
+    .then(() => {
+      userActions.userDisLikeSuccess(postId);
+    })
+    .catch(error => console.log(error));
+
+  return {
+    type: 'USER_DISLIKE'
+  }
+}
+
+const userDisLikeSuccess = (response) => ({
+  type: 'USER_DISLIKE_SUCCESS',
+  payload: response
+})
+
 export {
   login,
   loginSuccess,
@@ -135,5 +177,9 @@ export {
   registerFailure,
   userUpdate,
   userUpdateSuccess,
-  userUpdateFailure
+  userUpdateFailure,
+  userLike,
+  userDislike,
+  userLikeSuccess,
+  userDisLikeSuccess
 }
