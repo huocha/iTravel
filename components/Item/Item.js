@@ -1,5 +1,12 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {
+  ImageBackground,
+  Image,
+  TouchableWithoutFeedback,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import Icon from '../Icon/Icon';
 import styles from './Item.style';
 import { COLORS, FONTS } from '../../utils/constants';
@@ -44,6 +51,16 @@ export default class Item extends React.Component {
     return false;
   }
 
+  handleDoubleTap = () => {
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 300;
+    if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DELAY) {
+      this.onActionLike(this.props.itemKey);
+    } else {
+      this.lastTap = now;
+    }
+  }
+
   onActionLike = (itemKey) => {
     const { user, userActions } = this.props;
     const uid = user.infos.uid;
@@ -80,23 +97,25 @@ export default class Item extends React.Component {
 
     return (
       <View>
-        <ImageBackground
-          resizeMode="contain"
-          style={{
-            backgroundColor: '#D8D8D8',
-            width: '100%',
-            aspectRatio: aspect,
-          }}
-          source={{ uri: image }}
-        >
-          <View style={styles.viewBackground}>
-            <Text style={styles.text}>{name}</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon type="Ionicons" name="ios-pin" size={18} />
-              <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
+        <TouchableWithoutFeedback onPress={this.handleDoubleTap}>
+          <ImageBackground
+            resizeMode="contain"
+            style={{
+              backgroundColor: '#D8D8D8',
+              width: '100%',
+              aspectRatio: aspect,
+            }}
+            source={{ uri: image }}
+          >
+            <View style={styles.viewBackground}>
+              <Text style={styles.text}>{name}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Icon type="Ionicons" name="ios-pin" size={18} />
+                <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
+          </ImageBackground>
+        </TouchableWithoutFeedback>
         <Metadata
           likes={this.state.likes}
           itemKey={itemKey}
