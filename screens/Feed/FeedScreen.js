@@ -20,52 +20,35 @@ export default class FeedScreen extends Component {
 
   componentDidMount() {
     // Check if we are signed in...
-    if (Fire.shared.uid) {
-      // If we are, then we can get the first 5 posts
-      this.makeRemoteRequest();
-    } else {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          this.makeRemoteRequest();
-        }
-      });
-    }
+    const { user, feedActions } = this.props;
+    this.makeRemoteRequest();
   }
 
-  // Append the item to our states `data` prop
-  addPosts = posts => {
-    if (!Object.keys(posts).length) { console.log("no more"); return; }
-    this.setState(previousState => {
-      let data = {
-        ...previousState.data,
-        ...posts,
-      };
-      return {
-        data,
-        posts: Object.values(data),
-      };
-    });
-  };
+  shouldComponentUpdate(nextProps, nextState) {
+    const { feed } = this.props;
+    if (this.state.posts.length !== nextState.posts.length) {
+      return true;
+    }
+    if ((!feed.posts.length && nextProps.feed.posts.length > 0) || (
+      feed.posts.length && feed.posts[0].key !== nextProps.feed.posts[0].key
+    )) {
+      this.lastKnownKey = nextProps.feed.cursor;
+      const newPosts = this.state.posts.concat(nextProps.feed.posts)
+      this.setState({ posts: newPosts });
+
+      return true;
+    }
+    return false;
+  }
+
 
   // Call our database and ask for a subset of the user posts
   makeRemoteRequest = async lastKey => {
-    if (this.state.loading) { return; }
-    this.setState({ loading: true });
+    const { feed, feedActions } = this.props;
+    if (feed.isLoading) { return; }
 
     // The data prop will be an array of posts, the cursor will be used for pagination.
-    const { data, cursor } = await Fire.shared.getPaged({
-      size: PAGE_SIZE,
-      start: lastKey,
-    });
-
-    this.lastKnownKey = cursor;
-    // Iteratively add posts
-    let posts = {};
-    for (let child of data) { posts[child.key] = child; }
-    this.addPosts(posts);
-
-    // Finish loading, this will stop the refreshing animation.
-    this.setState({ loading: false });
+    const result = await feedActions.getFeed(PAGE_SIZE, lastKey , feedActions)
   };
 
   // Because we want to get the most recent items, don't pass the cursor back.
@@ -80,6 +63,7 @@ export default class FeedScreen extends Component {
       this.setState({ posts: Object.values(this.state.data) })
     });
   }
+
   // Important: You must return a Promise
   onSearch = (searchText) => {
     return new Promise((resolve, reject) => {
@@ -97,6 +81,7 @@ export default class FeedScreen extends Component {
   }
 
   render() {
+    const { feed } = this.props;
     // Let's make everything purrty by calling this method which animates layout changes.
     LayoutAnimation.easeInEaseOut();
     return (
@@ -111,7 +96,7 @@ export default class FeedScreen extends Component {
         <List
           refreshControl={
             <RefreshControl
-              refreshing={this.state.loading}
+              refreshing={feed.loading}
               onRefresh={() => { /* #TODO */ }}
             />
           }

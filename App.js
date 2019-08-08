@@ -29,9 +29,9 @@ const store = createStoreWithMiddleware(reducers);
 const navigator = createBottomTabNavigator(
   {
     // The name `Feed` is used later for accessing screens
-    /*Feed: {
+    Feed: {
       // Define the component we will use for the Feed screen.
-      screen: FeedScreen,
+      screen: Container.Feed,
       navigationOptions: {
         // Add a cool Material Icon for this screen
         tabBarIcon: tabBarIcon('home'),
@@ -43,7 +43,7 @@ const navigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: tabBarIcon('add-circle'),
       },
-    },*/
+    },
     User: {
       screen: Container.Profile,
       navigationOptions: {
