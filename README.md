@@ -10,18 +10,15 @@ An travel app made with React Native Expo, Firebase
 exp start
 ```
 
-Modify Firebase config in Fire.js
-```
-const firebaseConfig
-```
 
 ## Feature
 
 - [x] Search by museum name
 - [ ] Choose by city
+- [x] Like/dislike
 - [ ] Add to favorite
 - [x] Auth/login
-- [ ] Firebase update address
+- [x] Firebase update address
 
 
 ## [Deployment](https://expo.io/@huocha/itravel)
