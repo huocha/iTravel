@@ -28,7 +28,8 @@ import {
   TabViewPagerPan,
   TabViewPagerScroll,
 } from 'react-native-tab-view';
-
+import Drawer from 'react-native-drawer';
+import ControlPanel from '../Drawer/ControlPanelComponent';
 import PropTypes from 'prop-types'
 import { mansonry } from '../../utils/image'
 import Posts from '../Post/Posts'
@@ -51,6 +52,8 @@ class ProfileScreen extends Component {
       },
       postsMasonry: {},
       dialogVisible: false,
+      drawerOpen: false,
+      drawerDisabled: false,
     }
   }
 
@@ -59,6 +62,15 @@ class ProfileScreen extends Component {
       postsMasonry: mansonry(this.props.posts, 'imageHeight'),
     })*/
   }
+
+  closeDrawer = () => {
+    console.log('close')
+    this._drawer.close()
+  };
+
+  openDrawer = () => {
+    this._drawer.open()
+  };
 
   onEditProfile = () => {
     this.props.navigation.navigate('EditProfile');
@@ -239,7 +251,7 @@ class ProfileScreen extends Component {
       // An error happened.
       const errorCode = error.code;
       const errorMessage = error.message;
-      Alert(errorMessage);
+      alert(errorMessage);
     });
 
   }
@@ -247,41 +259,47 @@ class ProfileScreen extends Component {
   render() {
 
     return (
-      <ScrollView style={styles.scroll}>
-        <View style={[styles.container, this.props.containerStyle]}>
-          {/*<Dialog
-            visible={this.state.dialogVisible}
-            onTouchOutside={() => this.setDialogVisible(false)}
-            width={0.6}
-            >
-            <DialogContent>
-              <TouchableOpacity
-                onPress={this.onLogout}
-                style={styles.dialogTouch}
-              >
-                <Text style={styles.dialogText}>Log out</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={styles.dialogTouch}
-              >
-                <Text style={styles.dialogText}>Desactivate</Text>
-              </TouchableOpacity>
-            </DialogContent>
-          </Dialog>*/}
-          <View style={styles.cardContainer}>
-            {this.renderContactHeader()}
-            <TabView
-              navigationState={this.state.tabs}
-              onIndexChange={this._handleIndexChange}
-              renderTabBar={this._renderHeader}
-              renderPager={this._renderPager}
-              renderScene={this._renderScene}
-              style={[styles.tabContainer, this.props.tabContainerStyle]}
-            />
+      <Drawer
+        ref={(ref) => this._drawer = ref}
+        type="static"
+        side="right"
+        content={
+          <ControlPanel closeDrawer={this.closeDrawer} />
+        }
+        open={this.state.drawerOpen}
+        acceptDoubleTap
+        styles={{main: {shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15}}}
+        onOpen={() => {
+          console.log('onopen')
+          this.setState({drawerOpen: true})
+        }}
+        onClose={() => {
+          console.log('onclose')
+          this.setState({drawerOpen: false})
+        }}
+        openDrawerOffset={(viewport) => {
+          const { width } = viewport;
+          return width * 0.6
+        }}
+        captureGestures={false}
+        disabled={this.state.drawerDisabled}
+      >
+        <ScrollView style={styles.scroll}>
+          <View style={[styles.container, this.props.containerStyle]}>
+            <View style={styles.cardContainer}>
+              {this.renderContactHeader()}
+              <TabView
+                navigationState={this.state.tabs}
+                onIndexChange={this._handleIndexChange}
+                renderTabBar={this._renderHeader}
+                renderPager={this._renderPager}
+                renderScene={this._renderScene}
+                style={[styles.tabContainer, this.props.tabContainerStyle]}
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </Drawer>
     )
   }
 }

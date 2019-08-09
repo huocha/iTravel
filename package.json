@@ -19,7 +19,7 @@
     "react-native-reanimated": "^1.1.0",
     "react-native-search-box": "^0.0.19",
     "react-native-tab-view": "^2.9.0",
-    "react-navigation": "2.6.0",
+    "react-navigation": "^3.11.1",
     "react-navigation-header-buttons": "^1.2.1",
     "react-redux": "6.0.1",
     "redux": "^4.0.4",
