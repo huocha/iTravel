@@ -40,7 +40,8 @@ const Feed = createStackNavigator(
   {
     Feed: {
       screen: Container.Feed
-    }
+    },
+    Chat: { screen: Container.Chat }
   },
   {
     navigationOptions: {

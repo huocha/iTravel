@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ProfileScreen } from '../../screens/User';
 import { LeftButton, Title } from '../../components/HeaderTab/ProfileHeader';
+import { Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
 import * as globalActions from '../../actions/globalActions';
 
@@ -21,6 +22,7 @@ class ProfileContainer extends Component {
       ),
       headerRight: (
         <LeftButton
+          icon={<Feather size={24} name="menu"/>}
           onPress={() => {
             if (params) {
               params.globalActions.toggleDrawer();

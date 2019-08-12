@@ -182,18 +182,81 @@ const userDisLikeSuccess = (response) => ({
   payload: response
 })
 
+// helpers
+const parse = snapshot => {
+  console.log({snapshot})
+  const { timestamp: numberStamp, text, user } = snapshot.val();
+  const { key: _id } = snapshot;
+  const timestamp = new Date(numberStamp);
+  const message = {
+    _id,
+    timestamp,
+    text,
+    user,
+  };
+  return message;
+};
+
+
+const userOnChat = (userActions) => {
+  firebase.database()
+    .ref('messages')
+    .limitToLast(20)
+    .on('child_added', (snapshot) => {
+      userActions.userOnChatSuccess(parse(snapshot))
+    })
+
+  return {
+    type: 'USER_ON_CHAT'
+  }
+}
+
+const userOnChatSuccess = response => {
+  return {
+    type: 'USER_ON_CHAT_SUCCESS',
+    payload: response
+  }
+};
+
+const userOnSend = (messages, userActions) => {
+  for (let i = 0; i < messages.length; i++) {
+    const { text, user } = messages[i];
+    const message = {
+      text,
+      user,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
+    firebase.database().ref('messages').push(message);
+  }
+  return {
+    type: 'USER_ON_SEND'
+  }
+};
+
+
+const userOffChat = _ => {
+  firebase.database().ref('messages').off()
+}
+
 export {
   login,
   loginSuccess,
   loginFailure,
+
   register,
   registerSuccess,
   registerFailure,
+
   userUpdate,
   userUpdateSuccess,
   userUpdateFailure,
+
   userLike,
   userDislike,
   userLikeSuccess,
-  userDisLikeSuccess
+  userDisLikeSuccess,
+
+  userOnChat,
+  userOnChatSuccess,
+  userOffChat
 }

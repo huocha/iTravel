@@ -23,7 +23,7 @@ const LeftButton = props => {
       onPress={props.onPress}
       style={{...styles.buttonLeftStyle, ...props.containerStyle}}
     >
-      <Feather style={styles.iconStyle} name="menu"/>
+      {props.icon}
     </TouchableOpacity>
   )
 }
