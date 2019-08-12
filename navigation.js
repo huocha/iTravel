@@ -24,9 +24,6 @@ const User = createStackNavigator(
   {
     Profile: {
       screen: Container.Profile,
-    },
-    EditProfile: {
-      screen: Container.EditProfile,
     }
   },
   {
@@ -40,8 +37,7 @@ const Feed = createStackNavigator(
   {
     Feed: {
       screen: Container.Feed
-    },
-    Chat: { screen: Container.Chat }
+    }
   },
   {
     navigationOptions: {
@@ -59,6 +55,7 @@ const navigator = createBottomTabNavigator(
     User: User
   },
   {
+    headerMode: 'none',
     // We want to hide the labels and set a nice 2-tone tint system for our tabs
     tabBarOptions: {
       showLabel: false,
@@ -67,6 +64,24 @@ const navigator = createBottomTabNavigator(
     },
   },
 );
+
+const App = createStackNavigator(
+  {
+    Tabs: { screen: navigator, navigationOptions: { header: null }},
+    EditProfile: {
+      screen: Container.EditProfile,
+    },
+    Chat: {
+      screen: Container.Chat
+    },
+  },
+  {
+    //headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    }
+  }
+)
 
 const AuthStack = createSwitchNavigator(
   {
@@ -78,7 +93,7 @@ const AuthStack = createSwitchNavigator(
 const createRootNavigator = (signedIn = false) => {
    return createSwitchNavigator(
     {
-      App: navigator,
+      App: App,
       Auth: AuthStack,
     },
     {

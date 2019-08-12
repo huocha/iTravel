@@ -14,6 +14,7 @@ exp start
 ## Feature
 
 - [x] Search by museum name
+- [x] Chat 
 - [ ] Choose by city
 - [x] Like/dislike
 - [ ] Add to favorite

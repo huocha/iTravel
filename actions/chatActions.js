@@ -27,6 +27,7 @@ const parse = (snapshot) => {
   const message = {
     _id,
     timestamp,
+    createdAt: timestamp,
     text,
     user,
   };
