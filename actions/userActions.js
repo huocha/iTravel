@@ -1,4 +1,18 @@
 import * as firebase from 'firebase';
+import 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBqjrC6KJ9HO10y-xfHq2L7fOAlbfeP_Z8",
+  authDomain: "awesome-travel-8e0cb.firebaseapp.com",
+  databaseURL: "https://awesome-travel-8e0cb.firebaseio.com",
+  projectId: "awesome-travel-8e0cb",
+  storageBucket: "awesome-travel-8e0cb.appspot.com",
+  messagingSenderId: "679182780721",
+  appId: "1:679182780721:web:80cc3e2e23cc27d5"
+};
+
+firebase.initializeApp(firebaseConfig);
+
 const userCollection = firebase.firestore().collection("users");
 const FieldValue = firebase.firestore.FieldValue;
 

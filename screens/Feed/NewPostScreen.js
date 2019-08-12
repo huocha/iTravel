@@ -3,7 +3,6 @@ import React from 'react';
 import { Image, TextInput, View } from 'react-native';
 import HeaderButtons from 'react-navigation-header-buttons';
 
-import Fire from '../../Fire';
 
 export default class NewPostScreen extends React.Component<Props> {
   static navigationOptions = ({ navigation }) => ({
@@ -17,7 +16,7 @@ export default class NewPostScreen extends React.Component<Props> {
             const image = navigation.getParam('image');
             if (text && image) {
               navigation.goBack();
-              Fire.shared.post({ text: text.trim(), image });
+              // Fire.shared.post({ text: text.trim(), image });
             } else {
               alert('Need valid description');
             }

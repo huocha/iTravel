@@ -3,32 +3,36 @@ import { Text, Button } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ProfileScreen } from '../../screens/User';
+import { LeftButton, Title } from '../../components/HeaderTab/ProfileHeader';
 import * as userActions from '../../actions/userActions';
 
 class ProfileContainer extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
+
     return {
-      headerTitle: (<Text>huocha</Text>),
-      headerRight: (
-        <Button
-          onPress={() => alert('This is a button!')}
-          title="Info"
-          color="#000"
+      headerTitle: (
+        <Title
+          title={params ? params.user.username : ''}
+          onPress={() => { console.log(params) }}
         />
       ),
-      /* These values are used instead of the shared configuration! */
-      headerStyle: {
-        //backgroundColor: '#000',
-      },
+      headerRight: (
+        <LeftButton
+          onPress={() => alert('This is a button!')}
+        />
+      ),
       headerTintColor: '#fff',
     };
   };
 
   constructor(props){
     super(props)
-    //console.log(props)
+    this.props.navigation.setParams({
+      user: props.user.infos.user
+    })
   }
+
   render(){
 		return(
 			<ProfileScreen {...this.props}/>
