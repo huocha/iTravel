@@ -1,10 +1,13 @@
-const open = (text, type) => ({
-    type: 'OPEN',
-    data: { text, type },
+const openDrawer = _ => ({
+    type: 'OPEN_DRAWER',
 });
 
-const close = () => ({
-    type: 'CLOSE',
+const closeDrawer = _ => ({
+    type: 'CLOSE_DRAWER',
+});
+
+const toggleDrawer = _ => ({
+    type: 'TOGGLE_DRAWER',
 });
 
 const loading = isLoading => ({
@@ -13,7 +16,8 @@ const loading = isLoading => ({
 });
 
 export {
-    open,
-    close,
+    openDrawer,
+    closeDrawer,
+    toggleDrawer,
     loading,
 };

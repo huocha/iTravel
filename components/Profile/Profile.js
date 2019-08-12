@@ -257,7 +257,6 @@ class ProfileScreen extends Component {
   }
 
   render() {
-
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
@@ -266,17 +265,11 @@ class ProfileScreen extends Component {
         content={
           <ControlPanel closeDrawer={this.closeDrawer} />
         }
-        open={this.state.drawerOpen}
+        open={this.props.global.openDrawer}
         acceptDoubleTap
         styles={{main: {shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15}}}
-        onOpen={() => {
-          console.log('onopen')
-          this.setState({drawerOpen: true})
-        }}
-        onClose={() => {
-          console.log('onclose')
-          this.setState({drawerOpen: false})
-        }}
+        onOpen={() => this.props.globalActions.openDrawer()}
+        onClose={() => this.props.globalActions.closeDrawer()}
         openDrawerOffset={(viewport) => {
           const { width } = viewport;
           return width * 0.6

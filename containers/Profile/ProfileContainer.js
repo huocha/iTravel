@@ -5,21 +5,27 @@ import { connect } from 'react-redux';
 import { ProfileScreen } from '../../screens/User';
 import { LeftButton, Title } from '../../components/HeaderTab/ProfileHeader';
 import * as userActions from '../../actions/userActions';
+import * as globalActions from '../../actions/globalActions';
 
 class ProfileContainer extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
-
     return {
       headerTitle: (
         <Title
           title={params ? params.user.username : ''}
-          onPress={() => { console.log(params) }}
+          onPress={() => {
+            console.log("title")
+          }}
         />
       ),
       headerRight: (
         <LeftButton
-          onPress={() => alert('This is a button!')}
+          onPress={() => {
+            if (params) {
+              params.globalActions.toggleDrawer();
+            }
+          }}
         />
       ),
       headerTintColor: '#fff',
@@ -29,7 +35,8 @@ class ProfileContainer extends Component {
   constructor(props){
     super(props)
     this.props.navigation.setParams({
-      user: props.user.infos.user
+      user: props.user.infos.user,
+      globalActions: props.globalActions,
     })
   }
 
@@ -42,13 +49,15 @@ class ProfileContainer extends Component {
 
 function mapStateToProps(state) {
 	return {
-    user: state.user
+    user: state.user,
+    global: state.global
   };
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		userActions: bindActionCreators(userActions, dispatch),
+    globalActions: bindActionCreators(globalActions, dispatch),
 	};
 }
 
