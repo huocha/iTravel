@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  View,
   Text,
   TouchableOpacity
 } from 'react-native';
@@ -8,11 +9,13 @@ import styles from './ProfileHeader.style';
 
 const BackButton = props => {
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-    >
-      <Feather style={{ marginHorizontal: 8 }} size={26} name="chevron-left" />
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity
+        onPress={props.onPress}
+      >
+        <Feather style={{ marginHorizontal: 8 }} size={26} name="chevron-left" />
+      </TouchableOpacity>
+    </View>
   )
 }
 
