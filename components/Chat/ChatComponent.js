@@ -1,6 +1,6 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import Fire from '../../Fire';
+import { userOnChat, userOffChat, userOnSend } from '../../actions/chatActions';
 
 class Chat extends React.Component {
   constructor(props) {
@@ -11,22 +11,27 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    Fire.shared.on(message =>
+    const { user } = this.props;
+    if (user.infos && user.infos.user) {
+      const { avatar, username, ...rest } = user.infos.user
+      this.setState({ user : { avatar, username }});
+    }
+    userOnChat(message =>
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
   }
   componentWillUnmount() {
-    Fire.shared.off();
+    userOffChat();
   }
 
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={Fire.shared.send}
-        user={this.props.user.infos.user}
+        onSend={userOnSend}
+        user={this.state.user}
       />
     );
   }
