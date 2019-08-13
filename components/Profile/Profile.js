@@ -55,7 +55,6 @@ class ProfileScreen extends Component {
       drawerOpen: false,
       drawerDisabled: false,
     }
-    this.onLogout = this.onLogout.bind(this);
   }
 
   componentWillMount() {
@@ -243,19 +242,9 @@ class ProfileScreen extends Component {
   }
 
   onLogout = () => {
-
-    firebase.auth().signOut().then(function() {
-      AsyncStorage.removeItem('userInfos');
-      console.log(this.props);
-
-      this.props.navigation.navigate('Auth');
-    }).catch(function(error) {
-      // An error happened.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
-
+    console.log(this.props)
+    this.props.userActions.logout(this.props.userActions)
+    this.props.navigation.navigate('Auth');
   }
 
   render() {

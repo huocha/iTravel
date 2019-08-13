@@ -115,6 +115,25 @@ const loginFailure = () => ({
     data: 'credentials.wrong',
 });
 
+const logout = (userActions) => {
+  firebase.auth().signOut()
+    .then(_ => userActions.logoutSuccess())
+    .catch(error => userActions.logoutFailure(error));
+
+  return {
+    type: 'LOG_OUT'
+  }
+}
+
+const logoutSuccess = _ => ({
+  type: 'LOG_OUT_SUCCESS'
+})
+
+const logoutFailure = error => ({
+  type: 'LOG_OUT_FAILURE',
+  payload: error
+})
+
 const userUpdate = (uid, update, userActions) => {
 
   userCollection
@@ -190,6 +209,10 @@ export {
   register,
   registerSuccess,
   registerFailure,
+
+  logout,
+  logoutSuccess,
+  logoutFailure,
 
   userUpdate,
   userUpdateSuccess,

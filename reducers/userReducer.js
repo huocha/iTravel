@@ -23,7 +23,7 @@ const applyUserLike = (state, action) => {
 	let { user } = state.infos;
 	const alreadyExisted = user.likes.find(like => like === action.payload);
 	if (alreadyExisted) { return;}
-	
+
 	user.likes = user.likes.concat(action.payload);
 
 	const newInfos = { ...state.infos, user };
@@ -84,6 +84,16 @@ export default function (state = initialState, action) {
 
 	case 'REGISTER_FAILURE':
     return { ...state, ...{ error: action.data, isLoading: false } };
+
+	case 'LOG_OUT':
+		return { ...state, isLoading: true }
+
+	case 'LOG_OUT_SUCCESS':
+		userInfos.set({});
+		return { ...state, infos: {}, isLoading: false, }
+
+	case 'LOG_OUT_FAILURE':
+		return { ...state, error: action.payload, isLoading: false }
 
 	case 'UPDATE_USER':
 		return { ...state, isLoading: true };

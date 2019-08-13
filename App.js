@@ -4,7 +4,6 @@ import {
   View,
   ActivityIndicator,
   StatusBar,
-  AsyncStorage,
 } from 'react-native';
 import { Asset, Font, Image } from 'expo';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -16,6 +15,7 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import createRootNavigator from './navigation';
 import * as userActions from './actions/userActions';
+import { userInfos } from './utils/storage';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -40,8 +40,8 @@ class App extends React.Component {
     async loadRequirement() {
         await Font.loadAsync(fonts);
 
-        const usrInfos = await AsyncStorage.getItem('userInfos');
-        // await AsyncStorage.removeItem('userInfos');
+        const usrInfos = userInfos.get();
+
         if (usrInfos) {
             //console.log(usrInfos)
             store.dispatch({ type: 'LOGIN_SUCCESS', payload: JSON.parse(usrInfos) });
