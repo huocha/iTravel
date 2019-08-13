@@ -9,13 +9,12 @@ import moment from 'moment';
 
 class CustomNotification extends Component {
   render(){
-    console.log(this.props, 'he')
-    const { image, title, body, timeText } = this.props;
+    const { title, body, timeText } = this.props;
     return (
       <View style={styles.popupContentContainer}>
-        <View style={styles.imageContainer}>
+        {body.image && (<View style={styles.imageContainer}>
           <Image source={{ uri: body.image }} style={styles.image} />
-        </View>
+        </View>)}
         <View style={styles.contentContainer}>
           <View style={styles.contentTitleContainer}>
             <Text style={styles.contentTitle}>{title || ''}</Text>

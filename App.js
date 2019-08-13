@@ -18,20 +18,13 @@ import reduxThunk from 'redux-thunk';
 import createRootNavigator from './navigation';
 import * as userActions from './actions/userActions';
 import { userInfos } from './utils/storage';
+import { registerForPushNotificationsAsync } from './utils/registerForPushNotificationsAsync'
 import CustomNotification from './components/Notification/CustomNotification';
 import NotificationPopup from 'react-native-push-notification-popup';
 import moment from 'moment';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
-
-const renderCustomPopup = (props) => {
-  console.log(props)
-  return (
-    <CustomNotification {...props}/>
-  )
-};
-
 
 class App extends React.Component {
     constructor() {
@@ -71,32 +64,12 @@ class App extends React.Component {
 
     async componentDidMount() {
         StatusBar.setHidden(true);
-        await this.enablePushNotifications();
+        // await this.enablePushNotifications();
+        const token = await registerForPushNotificationsAsync();
+        console.log({ token })
         this._notificationSubscription = Notifications.addListener(
           this._handleNotification
         );
-    }
-
-    async enablePushNotifications() {
-      const { status: existingStatus } = await Permissions.getAsync(
-        Permissions.NOTIFICATIONS
-      );
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        // Android remote notification permissions are granted during the app
-        // install, so this will only ask on iOS
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-        finalStatus = status;
-      }
-
-      // Stop here if the user did not grant permissions
-      if (finalStatus !== 'granted') {
-        return;
-      }
-
-      // Get the token that uniquely identifies this device
-      let token = await Notifications.getExpoPushTokenAsync();
-      console.log(token);
     }
 
     async loadRequirement() {
