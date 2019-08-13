@@ -13,13 +13,26 @@ exp start
 
 ## Feature
 
+### Chat
 - [x] Search by museum name
-- [x] Chat 
+- [x] Chat one-to-one
+- [] Last seen by
+- [] Send image, share image to message
+- [] Notification
+
+### Feed
 - [ ] Choose by city
 - [x] Like/dislike
+- [x] Double tap to like/dislike
 - [ ] Add to favorite
-- [x] Auth/login
-- [x] Firebase update address
 
+### Search
+- [] Search by username
+- [] Search content by location
+
+### User Profile
+- [x] Auth/login
+- [x] Upload avatar, avatarBackground
+- [x] Modify information
 
 ## [Deployment](https://expo.io/@huocha/itravel)
