@@ -9,37 +9,8 @@ import * as userActions from '../../actions/userActions';
 import * as globalActions from '../../actions/globalActions';
 
 class ProfileContainer extends Component {
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    const { params } = navigation.state;
-    return {
-      headerTitle: (
-        <Title
-          title={params ? params.user.username : ''}
-          onPress={() => {
-            console.log("title")
-          }}
-        />
-      ),
-      headerRight: (
-        <LeftButton
-          icon={<Feather size={24} name="menu"/>}
-          onPress={() => {
-            if (params) {
-              params.globalActions.toggleDrawer();
-            }
-          }}
-        />
-      ),
-      headerTintColor: '#fff',
-    };
-  };
-
   constructor(props){
     super(props)
-    this.props.navigation.setParams({
-      user: props.user.infos.user,
-      globalActions: props.globalActions,
-    })
   }
 
   render(){
@@ -48,6 +19,31 @@ class ProfileContainer extends Component {
 		);
 	}
 }
+
+ProfileContainer.navigationOptions = ({ navigation, navigationOptions }) => {
+  const { params } = navigation.state;
+  return {
+    headerTitle: (
+      <Title
+        title={params ? params.user.username : ''}
+        onPress={() => {
+          console.log("title")
+        }}
+      />
+    ),
+    headerRight: (
+      <LeftButton
+        icon={<Feather size={24} name="menu"/>}
+        onPress={() => {
+          if (params) {
+            params.globalActions.toggleDrawer();
+          }
+        }}
+      />
+    ),
+    headerTintColor: '#fff',
+  };
+};
 
 function mapStateToProps(state) {
 	return {

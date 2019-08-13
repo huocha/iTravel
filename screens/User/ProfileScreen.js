@@ -20,10 +20,6 @@ class ProfileScreen extends Component {
   }
 }
 
-ProfileScreen.navigationOptions = () => ({
-  header: null,
-})
-
 ProfileScreen.propTypes = {
   navigation: PropTypes.object.isRequired,
 }

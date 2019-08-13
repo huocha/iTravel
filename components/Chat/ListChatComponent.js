@@ -6,6 +6,7 @@ import {
   ScrollView,
   FlatList
 }
+
 class ListChat extends Component {
   render() {
     <KeyboardAvoidingView

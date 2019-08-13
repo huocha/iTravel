@@ -33,6 +33,19 @@ const User = createStackNavigator(
   }
 );
 
+const Search = createStackNavigator(
+  {
+    UserList: {
+      screen: Container.UserSearchList,
+    }
+  },
+  {
+    navigationOptions: {
+      tabBarIcon: tabBarIcon('search')
+    },
+  }
+)
+
 const Feed = createStackNavigator(
   {
     Feed: {
@@ -51,8 +64,9 @@ const Feed = createStackNavigator(
 const navigator = createBottomTabNavigator(
   {
     // The name `Feed` is used later for accessing screens
-    Feed: Feed,
-    User: User
+    //Feed: Feed,
+    Search: Search,
+    User: User,
   },
   {
     headerMode: 'none',

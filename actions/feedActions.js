@@ -40,19 +40,8 @@ const getFeedFailure = error => ({
     payload: error,
 });
 
-const close = () => ({
-    type: 'CLOSE',
-});
-
-const loading = isLoading => ({
-    type: 'LOADING',
-    data: isLoading,
-});
-
 export {
     getFeed,
     getFeedSuccess,
     getFeedFailure,
-    close,
-    loading,
 };

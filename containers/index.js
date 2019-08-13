@@ -4,6 +4,7 @@ import Profile from './Profile/ProfileContainer';
 import EditProfile from './Profile/EditContainer';
 import Feed from './Feed/FeedContainer';
 import Chat from './Chat/ChatContainer';
+import UserSearchList from './Search/UserListContainer';
 
 export {
   Login,
@@ -11,5 +12,6 @@ export {
   Profile,
   EditProfile,
   Feed,
-  Chat
+  Chat,
+  UserSearchList
 }
