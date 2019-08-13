@@ -3,7 +3,7 @@ import { Text, Button } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FeedScreen } from '../../screens/Feed';
-import { LeftButton, Title } from '../../components/HeaderTab/ProfileHeader';
+import { ButtonRight, Title } from '../../components/HeaderTab/ProfileHeader';
 import { Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
 import * as feedActions from '../../actions/feedActions';
@@ -16,8 +16,8 @@ class FeedContainer extends Component {
         <Title title='iTravel'/>
       ),
       headerRight: (
-        <LeftButton
-          onPress={() => navigation.navigate("Chat")}
+        <ButtonRight
+          onPress={() => navigation.navigate("ListChat")}
           icon={<Feather size={24} name="send"/>}
         />
       ),

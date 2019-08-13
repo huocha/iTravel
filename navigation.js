@@ -63,8 +63,7 @@ const Feed = createStackNavigator(
 // Create our main tab navigator for moving between the Feed and Photo screens
 const navigator = createBottomTabNavigator(
   {
-    // The name `Feed` is used later for accessing screens
-    //Feed: Feed,
+    Feed: Feed,
     Search: Search,
     User: User,
   },
@@ -84,6 +83,9 @@ const App = createStackNavigator(
     Tabs: { screen: navigator, navigationOptions: { header: null }},
     EditProfile: {
       screen: Container.EditProfile,
+    },
+    ListChat: {
+      screen: Container.ListChat
     },
     Chat: {
       screen: Container.Chat

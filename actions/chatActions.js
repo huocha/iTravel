@@ -2,70 +2,84 @@
 * notes: because redux need middleware for async function and props seems to load very slow
 *       use module actions instead 12/08/2019
 */
-import * as firebase from 'firebase';
-// helpers
-const uid = () => {
-  return (firebase.auth().currentUser || {}).uid;
-}
 
-// one-to-one chat uid = user1 + user2
-/*
-*Check if user1’s id is less than user2's
-if(uid1 <uid2){
-  return uid1+uid2;
-}
-else{
-  return uid2+uid1;
-}
-*/
+import firebase from 'firebase'; // 4.8.1
 
-const parse = (snapshot) => {
+class Conversation {
+  constructor() {
+    this.observeAuth();
+  }
 
-  const { timestamp: numberStamp, text, user } = snapshot.val();
-  const { key: _id } = snapshot;
-  const timestamp = new Date(numberStamp);
-  const message = {
-    _id,
-    timestamp,
-    createdAt: timestamp,
-    text,
-    user,
+  observeAuth = () =>
+    firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
+
+  onAuthStateChanged = user => {
+    if (!user) {
+      return;
+    }
   };
-  return message;
-};
 
-const userOnChat = (callback) => {
-  const uid = (firebase.auth().currentUser || {}).uid;
-  firebase.database()
-    .ref(`messages/${uid}`)
-    .limitToLast(20)
-    .on('child_added', (snapshot) => {
-      callback(parse(snapshot))
-    })
-}
+  setUser2 = (uid2) => {
+    this.uid2 = uid2;
+  }
 
-const userOnSend = (messages) => {
-  const uid = (firebase.auth().currentUser || {}).uid;
-  for (let i = 0; i < messages.length; i++) {
-    const { text, user } = messages[i];
+  get uid() {
+    return (firebase.auth().currentUser || {}).uid;
+  }
 
+  get ref() {
+    const composedUid = this.generateUid(this.uid, this.uid2);
+    return firebase.database().ref(`messages/${composedUid}`);
+  }
+
+  parse = snapshot => {
+    const { timestamp: numberStamp, text, user } = snapshot.val();
+    const { key: _id } = snapshot;
+    const timestamp = new Date(numberStamp);
     const message = {
+      _id,
+      timestamp,
+      createdAt: timestamp,
       text,
       user,
-      timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
-    firebase.database().ref(`messages/${uid}`).push(message);
+    return message;
+  };
+
+  on = callback =>
+    this.ref
+      .limitToLast(20)
+      .on('child_added', snapshot => callback(this.parse(snapshot)));
+
+  get timestamp() {
+    return firebase.database.ServerValue.TIMESTAMP;
   }
-};
 
-const userOffChat = _ => {
-  const uid = (firebase.auth().currentUser || {}).uid;
-  firebase.database().ref(`messages/${uid}`).off()
+  generateUid = (uid1, uid2) => {
+    return uid1 < uid2 ? uid1+uid2 : uid2+uid1;
+  }
+
+  // send the message to the Backend
+  send = messages => {
+    for (let i = 0; i < messages.length; i++) {
+      const { text, user } = messages[i];
+
+      const message = {
+        text,
+        user,
+        timestamp: this.timestamp,
+      };
+      this.append(message);
+    }
+  };
+
+  append = message => this.ref.push(message);
+
+  // close the connection to the Backend
+  off() {
+    this.ref.off();
+  }
 }
 
-
-export {
-    userOnChat,
-    userOffChat,
-    userOnSend
-}
+Conversation.shared = new Conversation();
+export default Conversation;

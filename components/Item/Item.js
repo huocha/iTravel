@@ -65,7 +65,7 @@ export default class Item extends React.Component {
     const { user, userActions } = this.props;
     const uid = user.infos.uid;
     const { likes } = this.state;
-
+    if (!likes) { return; }
     if (!likes.includes(itemKey)){
       this.setState({ likes: likes.concat(itemKey) });
 
@@ -150,7 +150,7 @@ const Header = ({ name, image, address }) => (
 );
 
 const IconBar = ({ likes, itemKey, onActionLike }) => {
-  const liked = likes.includes(itemKey);
+  const liked = likes ? likes.includes(itemKey) : false;
   return (
     <View style={styles.row}>
       <View style={styles.row}>

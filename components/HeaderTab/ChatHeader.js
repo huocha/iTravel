@@ -30,7 +30,7 @@ const Title = props => {
   )
 };
 
-const LeftButton = props => {
+const ButtonRight = props => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
@@ -43,6 +43,6 @@ const LeftButton = props => {
 
 export {
   Title,
-  LeftButton,
+  ButtonRight,
   BackButton
 }

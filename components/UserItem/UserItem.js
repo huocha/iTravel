@@ -12,7 +12,7 @@ import styles from './UserItem.style.js';
 
 class UserItem extends Component {
   render() {
-    const { item, separators, onPress } = this.props;
+    const { avatar, username, description, separators, onPress } = this.props;
     return (
       <TouchableHighlight
         onPress={onPress}
@@ -22,13 +22,13 @@ class UserItem extends Component {
         <View style={{ padding: 15, display: 'flex', flexDirection: 'row' }}>
           <View style={{ flex: 0.2 }}>
             <Image
-              source={{ uri: item.avatar }}
+              source={{ uri: avatar }}
               style={styles.avatarImg}
             />
           </View>
           <View style={{ flex: 0.8 }}>
-            <Text style={styles.textBold}>{item.username}</Text>
-            <Text style={styles.textRegular}>{item.bio}</Text>
+            <Text style={styles.textBold}>{username}</Text>
+            <Text style={styles.textRegular}>{description}</Text>
           </View>
         </View>
       </TouchableHighlight>

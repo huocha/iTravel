@@ -1,6 +1,7 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { userOnChat, userOffChat, userOnSend } from '../../actions/chatActions';
+//import { userOnChat, userOffChat, userOnSend } from '../../actions/chatActions';
+import Conversation from '../../actions/chatActions';
 
 class Chat extends React.Component {
   constructor(props) {
@@ -11,26 +12,31 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const { user, navigation } = this.props;
+    const user2Id = navigation.state.params.id;
+    console.log(user2Id, user)
+
+    Conversation.shared.setUser2(user2Id);
+
     if (user.infos && user.infos.user) {
-      const { avatar, username, ...rest } = user.infos.user
-      this.setState({ user : { avatar, username }});
+      const { avatar, username, uid, ...rest } = user.infos.user
+      this.setState({ user : { _id: user.infos.uid, avatar, username }});
     }
-    userOnChat(message =>
+    Conversation.shared.on(message =>
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
   }
   componentWillUnmount() {
-    userOffChat();
+    Conversation.shared.off();
   }
 
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={userOnSend}
+        onSend={Conversation.shared.send}
         user={this.state.user}
       />
     );

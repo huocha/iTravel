@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { COLORS, FONTS } from '../../utils/constants';
 import Search from 'react-native-search-box';
-import UserItem from './UserItem';
+import UserItem from '../UserItem/UserItem';
 
 class UserListComponent extends Component {
   constructor(props) {
@@ -61,7 +61,9 @@ class UserListComponent extends Component {
             data={this.state.users}
             renderItem={({item, index, separators}) => (
               <UserItem
-                item={item}
+                avatar={item.avatar}
+                description={item.bio}
+                username={item.username}
                 onPress={() => this._onPress(item)}
                 separators={separators}
               />
