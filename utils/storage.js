@@ -6,6 +6,9 @@ export const userInfos = {
         AsyncStorage.setItem('userInfos', JSON.stringify(val));
         this.value = val;
     },
+    remove: () => {
+      AsyncStorage.removeItem('userInfos');
+    },
     get: () => this.value,
     merge: (value) => {
         const merged = { ...this.value, ...value };

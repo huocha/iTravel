@@ -11,10 +11,9 @@ class Chat extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { user, navigation } = this.props;
     const user2Id = navigation.state.params.id;
-    console.log(user2Id, user)
 
     Conversation.shared.setUser2(user2Id);
 
@@ -22,13 +21,15 @@ class Chat extends React.Component {
       const { avatar, username, uid, ...rest } = user.infos.user
       this.setState({ user : { _id: user.infos.uid, avatar, username }});
     }
+
     Conversation.shared.on(message =>
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
   }
-  componentWillUnmount() {
+
+  componentWillMount() {
     Conversation.shared.off();
   }
 

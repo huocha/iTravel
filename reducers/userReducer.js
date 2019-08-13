@@ -89,7 +89,7 @@ export default function (state = initialState, action) {
 		return { ...state, isLoading: true }
 
 	case 'LOG_OUT_SUCCESS':
-		userInfos.set({});
+		userInfos.remove();
 		return { ...state, infos: {}, isLoading: false, }
 
 	case 'LOG_OUT_FAILURE':
@@ -103,12 +103,7 @@ export default function (state = initialState, action) {
 
 	case 'UPDATE_USER_FAILURE':
 		return {...state, isLoading: false, error: action.payload };
-	case 'LOG_OUT':
-		return state;
-	case 'LOG_OUT_SUCCESS':
-		return { ...state, infos: {} };
-	case 'LOG_OUT_FAILURE':
-		return state;
+
 	case 'USER_LIKE':
 		return state;
 	case 'USER_LIKE_SUCCESS':
