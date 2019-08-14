@@ -2,6 +2,7 @@ import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 //import { userOnChat, userOffChat, userOnSend } from '../../actions/chatActions';
 import Conversation from '../../actions/chatActions';
+import { View, Text } from 'react-native';
 
 class Chat extends React.Component {
   constructor(props) {

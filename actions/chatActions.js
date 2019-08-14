@@ -33,11 +33,13 @@ class Conversation {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user } = snapshot.val();
+    const { timestamp: numberStamp, text, user, sent, received } = snapshot.val();
     const { key: _id } = snapshot;
     const timestamp = new Date(numberStamp);
     const message = {
       _id,
+      sent,
+      received,
       timestamp,
       createdAt: timestamp,
       text,
@@ -72,6 +74,10 @@ class Conversation {
       this.append(message);
     }
   };
+
+  sendNotification = message => {
+
+  }
 
   append = message => this.ref.push(message);
 
