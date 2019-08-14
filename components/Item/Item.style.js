@@ -5,9 +5,8 @@ const padding = 12;
 
 const styles = StyleSheet.create({
   text: {
-    fontWeight: '600',
+    fontSize: 16,
     fontFamily: FONTS.MEDIUM,
-    color: 'white'
   },
   textBlue: {
     fontWeight: '600',
@@ -20,10 +19,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.REGULAR
   },
   subtitleWhite: {
-    fontWeight: '400',
     opacity: 0.8,
     fontFamily: FONTS.REGULAR,
-    color: 'white'
   },
   row: {
     flexDirection: 'row',
@@ -44,8 +41,14 @@ const styles = StyleSheet.create({
     marginRight: padding,
   },
   viewBackground: {
-    backgroundColor: 'rgba(250, 107, 107, 0.4)',
-    padding: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.73)',
+    paddingLeft: 15,
+    paddingVertical: 10,
+  },
+  imageBackground: {
+    backgroundColor: '#fff',
+    width: '100%',
+    height: 250,
   }
 });
 

@@ -7,11 +7,9 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 import Icon from '../Icon/Icon';
 import styles from './Item.style';
-import { COLORS, FONTS } from '../../utils/constants';
-const profileImageSize = 36;
-const padding = 12;
 
 const equals = (a, b) => {
   if (a === b) return true;
@@ -25,9 +23,10 @@ const equals = (a, b) => {
 };
 
 export default class Item extends React.Component {
-  state = { likes: [] };
+  state = { likes: [], animationDisplay: 'none' };
 
   componentDidMount() {
+
     if (!this.props.imageWidth) {
       // Get the size of the web image
       Image.getSize(this.props.image, (width, height) => {
@@ -44,7 +43,6 @@ export default class Item extends React.Component {
       return true;
     }
     if (!equals(this.props.user.infos.user.likes, nextProps.user.infos.user.likes)) {
-      console.log('hee')
       this.setState({ likes: nextProps.user.infos.user.likes })
       return true;
     }
@@ -54,14 +52,22 @@ export default class Item extends React.Component {
   handleDoubleTap = () => {
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
+    const { itemKey } = this.props;
     if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DELAY) {
-      this.onActionLike(this.props.itemKey);
+
+      this.animation.play();
+      this.onActionLike(itemKey, true);
+      if (!this.state.likes.includes(itemKey)) {
+        this.setState({ animationDisplay: 'flex' });
+
+        setTimeout(_ => this.setState({ animationDisplay: 'none' }) , 3*1000)
+      }
     } else {
       this.lastTap = now;
     }
   }
 
-  onActionLike = (itemKey) => {
+  onActionLike = (itemKey, doubleTap) => {
     const { user, userActions } = this.props;
     const uid = user.infos.uid;
     const { likes } = this.state;
@@ -90,31 +96,40 @@ export default class Item extends React.Component {
       userActions
     } = this.props;
 
-    // Reduce the name to something
-    const imgW = this.state.width;
-    const imgH = this.state.height;
-    const aspect = imgW / imgH || 1;
-
     return (
-      <View>
+      <View style={{ position: 'relative' }}>
         <TouchableWithoutFeedback onPress={this.handleDoubleTap}>
-          <ImageBackground
-            resizeMode="contain"
-            style={{
-              backgroundColor: '#D8D8D8',
-              width: '100%',
-              aspectRatio: aspect,
-            }}
-            source={{ uri: image }}
-          >
-            <View style={styles.viewBackground}>
-              <Text style={styles.text}>{name}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Icon type="Ionicons" name="ios-pin" size={18} />
-                <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
+          <View>
+            <LottieView
+              style={{
+                display: this.state.animationDisplay,
+                position: 'absolute',
+                top: 20,
+                zIndex: 10,
+                width: '100%',
+                height: 120
+              }}
+              ref={animation => this.animation = animation}
+              source={require('../../assets/lottie/love.json')}
+            />
+            <ImageBackground
+              resizeMode="contain"
+              style={{
+                backgroundColor: '#D8D8D8',
+                width: '100%',
+                height: 250,
+              }}
+              source={{ uri: image }}
+            >
+              <View style={styles.viewBackground}>
+                <Text style={styles.text}>{name}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon type="Ionicons" name="ios-pin" size={18} />
+                  <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
+                </View>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
         </TouchableWithoutFeedback>
         <Metadata
           likes={this.state.likes}
