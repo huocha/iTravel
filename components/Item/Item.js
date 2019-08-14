@@ -10,6 +10,7 @@ import {
 import LottieView from 'lottie-react-native';
 import Icon from '../Icon/Icon';
 import styles from './Item.style';
+import { doubleTap } from '../../utils/misc';
 
 const equals = (a, b) => {
   if (a === b) return true;
@@ -50,11 +51,8 @@ export default class Item extends React.Component {
   }
 
   handleDoubleTap = () => {
-    const now = Date.now();
-    const DOUBLE_PRESS_DELAY = 300;
     const { itemKey } = this.props;
-    if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DELAY) {
-
+    doubleTap(() => {
       this.animation.play();
       this.onActionLike(itemKey, true);
       if (!this.state.likes.includes(itemKey)) {
@@ -62,9 +60,7 @@ export default class Item extends React.Component {
 
         setTimeout(_ => this.setState({ animationDisplay: 'none' }) , 3*1000)
       }
-    } else {
-      this.lastTap = now;
-    }
+    })
   }
 
   onActionLike = (itemKey, doubleTap) => {
