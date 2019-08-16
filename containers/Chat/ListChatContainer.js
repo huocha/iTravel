@@ -44,6 +44,7 @@ function mapStateToProps(state) {
 	return {
     user: state.user.infos,
     search: state.search,
+    conversation: state.conversation
   };
 }
 

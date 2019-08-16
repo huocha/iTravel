@@ -16,30 +16,33 @@ class ListChatComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      users: []
+      lists: []
     }
   }
 
   componentDidMount() {
     const { user, conversationActions, searchActions } = this.props;
 
-    const data = { size: 5, start: undefined, currentUid: user.uid };
+    /*onst data = { size: 5, start: undefined, currentUid: user.uid };
     searchActions.fetchUsers(data, searchActions)
-
+*/
     conversationActions.fetchConversations(user.uid, conversationActions);
-
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.users.length !== nextState.users.length) {
+    if (this.state.lists.length !== nextState.lists.length) {
       return true;
     }
-    if (nextProps.search !== this.props.search) {
-      this.setState({
-        users: nextProps.search.lists,
-      })
+    if (nextProps.conversation !== this.props.conversation) {
+      if (nextProps.conversation.conversations.length) {
+        this.setState({ lists: nextProps.conversation.conversations });
+      }
+      else if (nextProps.conversation.error) {
+        alert(nextProps.conversation.error)
+      }
       return true;
     }
+
     return false;
   }
 
@@ -63,12 +66,12 @@ class ListChatComponent extends Component {
         <ScrollView>
           <FlatList
             keyExtractor={item => item.id}
-            data={this.state.users}
+            data={this.state.lists}
             renderItem={({item, index, separators}) => (
               <UserItem
-                avatar={item.avatar}
-                username={item.username}
-                description={'Hello world'}
+                avatar={item.recipient.avatar}
+                username={item.recipient.username}
+                description={item.latestMessage.text}
                 onPress={() => this._onPress(item)}
                 separators={separators}
               />
