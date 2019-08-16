@@ -13,6 +13,8 @@ import { ImagePicker, Permissions } from 'expo';
 import { TextInputComponent } from '../TextInput/TextInputComponent';
 import { ButtonLink, ButtonPrimary } from '../Button/ButtonComponent';
 import { uploadImageAsync } from '../../utils/uploadPhoto';
+import getPermission from '../../utils/getPermission';
+
 import styles from './EditProfile.style';
 
 class EditProfile extends Component {
@@ -23,44 +25,32 @@ class EditProfile extends Component {
     }
   }
 
-  _getPermission = async () => {
-    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
-    if (permission.status !== 'granted') {
-        const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (newPermission.status === 'granted') {
-          return true;
-        }
-        return false;
-    }
-    return true;
-  }
-
   _takePhoto = async (type) => {
-    let pickerResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+    const status = await getPermission(Permissions.CAMERA);
+    if (status) {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
 
-    let permission = this._getPermission();
-    if (permission) {
-      this._handleImagePicked(pickerResult, type);
-    }
-    else {
-      Alert("No permission for CAMERA")
+      if (!result.cancelled) {
+        this._handleImagePicked(result, type);
+      }
     }
   };
 
   _pickImage = async (type) => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-    let permission = this._getPermission();
-    if (permission) {
-      this._handleImagePicked(pickerResult, type);
-    }
-    else {
-      Alert("No permission for Photo Library")
+    const status = await getPermission(Permissions.CAMERA_ROLL);
+
+    if (status) {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+
+      if (!result.cancelled) {
+        this._handleImagePicked(result, type);
+      }
     }
   };
 
