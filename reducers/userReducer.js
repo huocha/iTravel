@@ -48,6 +48,10 @@ const applyUserDisLike = (state, action) => {
 	}
 }
 
+const applyFetchConversation = (state, action) => {
+
+}
+
 export default function (state = initialState, action) {
 	switch (action.type) {
 	case 'LOGIN':
@@ -110,6 +114,7 @@ export default function (state = initialState, action) {
 		return applyUserLike(state, action)
 	case 'USER_DISLIKE_SUCCESS':
 		return applyUserDisLike(state, action)
+
 	default:
 		return state;
 	}

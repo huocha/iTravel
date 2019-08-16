@@ -10,18 +10,7 @@ import {
 import LottieView from 'lottie-react-native';
 import Icon from '../Icon/Icon';
 import styles from './Item.style';
-import { doubleTap } from '../../utils/misc';
-
-const equals = (a, b) => {
-  if (a === b) return true;
-  if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
-  if (!a || !b || (typeof a !== 'object' && typeof b !== 'object')) return a === b;
-  if (a === null || a === undefined || b === null || b === undefined) return false;
-  if (a.prototype !== b.prototype) return false;
-  let keys = Object.keys(a);
-  if (keys.length !== Object.keys(b).length) return false;
-  return keys.every(k => equals(a[k], b[k]));
-};
+import { doubleTap, equals } from '../../utils/misc';
 
 export default class Item extends React.Component {
   state = { likes: [], animationDisplay: 'none' };

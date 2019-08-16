@@ -33,13 +33,13 @@ class Conversation {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user, sent, received } = snapshot.val();
+    const { timestamp: numberStamp, text, user } = snapshot.val();
     const { key: _id } = snapshot;
     const timestamp = new Date(numberStamp);
     const message = {
       _id,
-      sent,
-      received,
+      sent: true,
+      received: true,
       timestamp,
       createdAt: timestamp,
       text,
@@ -52,6 +52,7 @@ class Conversation {
     this.ref
       .limitToLast(20)
       .on('child_added', snapshot => callback(this.parse(snapshot)));
+
 
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;

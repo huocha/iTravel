@@ -21,10 +21,13 @@ class ListChatComponent extends Component {
   }
 
   componentDidMount() {
-    const { user, searchActions } = this.props;
+    const { user, conversationActions, searchActions } = this.props;
 
     const data = { size: 5, start: undefined, currentUid: user.uid };
     searchActions.fetchUsers(data, searchActions)
+
+    conversationActions.fetchConversations(user.uid, conversationActions);
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {

@@ -8,6 +8,8 @@ import { Feather } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
 import * as searchActions from '../../actions/searchActions';
 
+import * as conversationActions from '../../actions/conversationActions';
+
 class ListChatContainer extends Component {
   constructor(props){
     super(props)
@@ -49,6 +51,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		userActions: bindActionCreators(userActions, dispatch),
     searchActions: bindActionCreators(searchActions, dispatch),
+    conversationActions: bindActionCreators(conversationActions, dispatch),
 	};
 }
 
