@@ -6,8 +6,6 @@ import ListChatComponent from '../../components/Chat/ListChatComponent';
 import { BackButton, ButtonRight, Title } from '../../components/HeaderTab/ProfileHeader';
 import { Feather } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
-import * as searchActions from '../../actions/searchActions';
-
 import * as conversationActions from '../../actions/conversationActions';
 
 class ListChatContainer extends Component {
@@ -43,7 +41,6 @@ ListChatContainer.navigationOptions = ({ navigation, navigationOptions }) => {
 function mapStateToProps(state) {
 	return {
     user: state.user.infos,
-    search: state.search,
     conversation: state.conversation
   };
 }
@@ -51,7 +48,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		userActions: bindActionCreators(userActions, dispatch),
-    searchActions: bindActionCreators(searchActions, dispatch),
     conversationActions: bindActionCreators(conversationActions, dispatch),
 	};
 }

@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import LottieView from 'lottie-react-native';
-import Icon from '../Icon/Icon';
+import { Icon } from '../Icon/Icon';
 import styles from './Item.style';
 import { doubleTap, equals } from '../../utils/misc';
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
 import { COLORS, FONTS } from '../../utils/constants';
 
-const Icon = ({ type, name, size }) => {
+export const Icon = ({ type, name, size }) => {
   const styles = { marginRight: 8 };
   const SIZE = 26;
   switch (type) {
@@ -19,7 +19,7 @@ const Icon = ({ type, name, size }) => {
       return (<MaterialIcons style={styles} name={name} size={size || SIZE} color={COLORS.RED_COLOR} />)
       break;
     case 'AntDesign':
-      return (<MaterialIcons style={styles} name={name} size={size || SIZE} color={COLORS.RED_COLOR} />)
+      return (<AntDesign style={styles} name={name} size={size || SIZE} color={COLORS.RED_COLOR} />)
       break;
     default:
       return null
@@ -27,4 +27,11 @@ const Icon = ({ type, name, size }) => {
   }
 };
 
-export default Icon;
+export const tabBarIcon = name => ({ tintColor }) => (
+  <AntDesign
+    style={{ backgroundColor: 'transparent' }}
+    name={name}
+    color={tintColor}
+    size={24}
+  />
+);

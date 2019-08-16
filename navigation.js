@@ -15,7 +15,7 @@ import {
   createStackNavigator,
   createSwitchNavigator
 } from 'react-navigation';
-import tabBarIcon from './utils/tabBarIcon';
+import { tabBarIcon } from './components/Icon/Icon';
 // Import the screens
 import { FeedScreen, NewPostScreen, SelectPhotoScreen } from './screens/Feed';
 import * as Container from './containers';
@@ -28,7 +28,7 @@ const User = createStackNavigator(
   },
   {
     navigationOptions: {
-      tabBarIcon: tabBarIcon('person')
+      tabBarIcon: tabBarIcon('user')
     },
   }
 );
@@ -41,7 +41,7 @@ const Search = createStackNavigator(
   },
   {
     navigationOptions: {
-      tabBarIcon: tabBarIcon('search')
+      tabBarIcon: tabBarIcon('search1')
     },
   }
 )
@@ -60,11 +60,25 @@ const Feed = createStackNavigator(
   }
 )
 
+const Photo = createStackNavigator(
+  {
+    Photo: {
+      screen: SelectPhotoScreen
+    }
+  },
+  {
+    navigationOptions: {
+      tabBarIcon: tabBarIcon('pluscircleo'),
+    },
+  }
+)
 // Create our main tab navigator for moving between the Feed and Photo screens
 const navigator = createBottomTabNavigator(
   {
     Feed: Feed,
     Search: Search,
+    // All the same stuff but for the Photo screen
+    Photo: Photo,
     User: User,
   },
   {
