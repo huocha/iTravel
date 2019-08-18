@@ -64,6 +64,9 @@ const Photo = createStackNavigator(
   {
     Photo: {
       screen: SelectPhotoScreen
+    },
+    NewPost: {
+      screen: Container.NewPost
     }
   },
   {

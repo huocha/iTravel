@@ -24,7 +24,7 @@ function uploadPhoto(uri, uploadUri) {
 }
 
 
-async function uploadImageAsync(uid, uri) {
+async function uploadImageAsync(uid, photoName, uri) {
   // Why are we using XMLHttpRequest? See:
   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
   const blob = await new Promise((resolve, reject) => {
@@ -41,10 +41,11 @@ async function uploadImageAsync(uid, uri) {
     xhr.send(null);
   });
 
+  const name = photoName ? photoName : uuid.v4()
   const ref = firebase
     .storage()
     .ref()
-    .child(`user/${uid}/${uuid.v4()}`);
+    .child(`user/${uid}/${name}`);
   const snapshot = await ref.put(blob);
 
   // We're done with the blob, close and release it

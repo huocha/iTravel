@@ -58,7 +58,7 @@ class EditProfile extends Component {
     try {
       const uid = this.props.user.infos.uid
       if (!pickerResult.cancelled) {
-        uploadUrl = await uploadImageAsync(uid, pickerResult.uri);
+        uploadUrl = await uploadImageAsync(uid, type, pickerResult.uri);
 
         const update = { [type]: uploadUrl };
 

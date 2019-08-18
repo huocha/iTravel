@@ -2,6 +2,7 @@ import { userInfos } from '../utils/storage';
 
 const initialState = {
 	infos: {},
+	posts: [],
 	isLoading: false,
 };
 
@@ -48,8 +49,10 @@ const applyUserDisLike = (state, action) => {
 	}
 }
 
-const applyFetchConversation = (state, action) => {
+const applyAddPost = (state, action) => {
+	const { posts } = this.state;
 
+	return { ...state, posts: posts.concat(action.payload) }
 }
 
 export default function (state = initialState, action) {
@@ -112,6 +115,9 @@ export default function (state = initialState, action) {
 		return state;
 	case 'USER_LIKE_SUCCESS':
 		return applyUserLike(state, action)
+
+	case 'USER_DISLIKE':
+		return state;
 	case 'USER_DISLIKE_SUCCESS':
 		return applyUserDisLike(state, action)
 

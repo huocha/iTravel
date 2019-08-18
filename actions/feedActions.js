@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+
 const museumCollection = firebase.firestore().collection("museums");
 const documentId = firebase.firestore.FieldPath.documentId();
 
@@ -39,6 +40,7 @@ const getFeedFailure = error => ({
     type: 'GET_FEED_FAILURE',
     payload: error,
 });
+
 
 export {
     getFeed,

@@ -2,6 +2,7 @@
 * author: Jasmine (jasminee.ngx@gmail.com)
 * #TODO: remove the old image when updating
 */
+
 import React, { Component } from 'react'
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {
@@ -11,14 +12,11 @@ import {
   ImageBackground,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   View,
-  Dimensions,
-  Modal,
   TouchableHighlight,
-  TouchableOpacity,
   Button,
+  FlatList,
   AsyncStorage,
 } from 'react-native'
 import {
@@ -55,6 +53,14 @@ class ProfileScreen extends Component {
       drawerOpen: false,
       drawerDisabled: false,
     }
+  }
+
+  componentDidMount() {
+    const { user, postActions } = this.props;
+
+    const uid = user.infos.uid;
+    postActions.fetchPosts(uid, postActions);
+
   }
 
   componentWillMount() {
@@ -146,17 +152,17 @@ class ProfileScreen extends Component {
   }
 
   _renderScene = ({ route: { key } }) => {
-    return (<Text>{key}</Text>)
-    /*switch (key) {
+
+    switch (key) {
       case '1':
-        return <Text>{key}</Text>
+        return this.renderMansonry2Col()
       case '2':
         return this.renderMansonry2Col()
       case '3':
         return this.renderMansonry2Col()
       default:
         return <p>hello world</p>
-    }*/
+    }
   }
 
   _renderLabel = props => ({ route, index }) => {
@@ -220,19 +226,17 @@ class ProfileScreen extends Component {
 
   renderMansonry2Col = () => {
     return (
-      <View style={styles.mansonryContainer}>
-        <View>
-          <Posts
-            containerStyle={styles.sceneContainer}
-            posts={this.state.postsMasonry.leftCol}
-          />
-        </View>
-        <View>
-          <Posts
-            containerStyle={styles.sceneContainer}
-            posts={this.state.postsMasonry.rightCol}
-          />
-        </View>
+      <View style={{ padding: 15 }}>
+        <FlatList
+          data={this.props.post.posts}
+          renderItem={({item}) => (
+            <View style={styles.itemContainer}>
+              <Image source={{ uri: item.image }} style={styles.item} />
+            </View>
+          )}
+          keyExtractor={item => item.id}
+          numColumns={3}
+        />
       </View>
     )
   }
@@ -242,12 +246,12 @@ class ProfileScreen extends Component {
   }
 
   onLogout = () => {
-    console.log(this.props)
     this.props.userActions.logout(this.props.userActions)
     this.props.navigation.navigate('Auth');
   }
 
   render() {
+    console.log(this.props.post)
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}

@@ -8,7 +8,6 @@ import * as userActions from '../../actions/userActions';
 class EditProfileContainer extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
-    console.log('he')
     return {
       headerLeft: <BackButton onPress={() => navigation.goBack()}/>
     }

@@ -7,6 +7,7 @@ import { ButtonRight, Title } from '../../components/HeaderTab/ProfileHeader';
 import { Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
 import * as globalActions from '../../actions/globalActions';
+import * as postActions from '../../actions/postActions';
 
 class ProfileContainer extends Component {
   constructor(props){
@@ -48,7 +49,8 @@ ProfileContainer.navigationOptions = ({ navigation, navigationOptions }) => {
 function mapStateToProps(state) {
 	return {
     user: state.user,
-    global: state.global
+    global: state.global,
+    post: state.post,
   };
 }
 
@@ -56,6 +58,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		userActions: bindActionCreators(userActions, dispatch),
     globalActions: bindActionCreators(globalActions, dispatch),
+    postActions: bindActionCreators(postActions, dispatch),
 	};
 }
 

@@ -1,6 +1,9 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { COLORS, FONTS } from '../../utils/constants';
 
+const numColumns = 3;
+const size = (Dimensions.get('window').width - 30)/numColumns;
+
 const styles = StyleSheet.create({
   textRegular: {
     fontFamily: FONTS.REGULAR,
@@ -124,6 +127,15 @@ const styles = StyleSheet.create({
     color: COLORS.MAIN_BLUE_COLOR,
     fontFamily: FONTS.MEDIUM,
     fontSize: 18
+  },
+  itemContainer: {
+    width: size,
+    height: size,
+  },
+  item: {
+    flex: 1,
+    margin: 3,
+    backgroundColor: 'lightblue',
   }
 })
 
