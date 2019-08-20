@@ -7,6 +7,7 @@ import { ButtonRight, Title } from '../../components/HeaderTab/ProfileHeader';
 import { Ionicons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons';
 import * as userActions from '../../actions/userActions';
 import * as feedActions from '../../actions/feedActions';
+import * as postActions from '../../actions/postActions';
 
 class FeedContainer extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -40,6 +41,7 @@ function mapStateToProps(state) {
 	return {
     user: state.user,
     feed: state.feed,
+    post: state.post,
   };
 }
 
@@ -47,6 +49,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		userActions: bindActionCreators(userActions, dispatch),
     feedActions: bindActionCreators(feedActions, dispatch),
+    postActions: bindActionCreators(postActions, dispatch),
 	};
 }
 

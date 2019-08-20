@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Button, ActivityIndicator } from 'react-native';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { NewPostScreen } from '../../screens/Feed';
@@ -12,61 +12,67 @@ import { uploadImageAsync } from '../../utils/uploadPhoto';
 
 import * as userActions from '../../actions/userActions';
 import * as postActions from '../../actions/postActions';
-
-import firebase from 'firebase';
 import moment from 'moment';
 
 class NewPostScreenContainer extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
-    const { text, image, post, postActions, uid } = params ? params : {};
+    const { text, image, onUploadPost, isLoading } = params ? params : {};
+
     return {
       title: 'New Post',
-      headerRight: post.isLoading ? <ActivityIndicator /> :
+      headerRight: isLoading ?
+        (
+          <View style={{ paddingRight: 15 }}>
+            <ActivityIndicator />
+          </View>
+        ) :
         (
           <HeaderButtons IconComponent={Ionicons} iconSize={23} color="black">
             <HeaderButtons.Item
               title="Share"
-              onPress={async () => {
-
-                if (text && image) {
-
-                  const { uri: reducedImage, width, height } = await shrinkImageAsync(
-                    image,
-                  );
-
-                  const remoteUri = await uploadImageAsync(uid, undefined, reducedImage);
-
-                  const data = {
-                    text: text.trim(),
-                    image: remoteUri,
-                    user: uid,
-                    createdAt: moment().format()
-                  }
-                  await postActions.userAddPost(data, postActions);
-
-                  navigation.setParams({});
-                  navigation.navigate('Home');
-                } else {
-                  alert('Need valid description');
-                }
-              }}
+              onPress={() => onUploadPost({ text, image })}
             />
           </HeaderButtons>
         )
     }
   };
 
-
   constructor(props){
     super(props)
   }
 
+  onUploadPost = async ({ text, image}) => {
+    const { user, post, postActions, navigation } = this.props;
+    navigation.setParams({ isLoading: true });
+
+    const uid = user.infos.uid;
+
+    if (text && image) {
+
+      const { uri: reducedImage, width, height } = await shrinkImageAsync(
+        image,
+      );
+
+      const remoteUri = await uploadImageAsync(uid, undefined, reducedImage);
+
+      const data = {
+        text: text.trim(),
+        image: remoteUri,
+        user: uid,
+        createdAt: moment().format()
+      }
+      await postActions.userAddPost(data, postActions);
+      navigation.navigate("Feed");
+
+    } else {
+      alert('Need valid description');
+    }
+  }
+
   componentDidMount() {
     this.props.navigation.setParams({
-      post: this.props.post,
-      uid: this.props.user.infos.uid,
-      postActions: this.props.postActions
+      onUploadPost: this.onUploadPost
     });
   }
 

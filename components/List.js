@@ -6,7 +6,7 @@ import Item from './Item/Item';
 
 class List extends React.Component {
   renderItem = ({ item }) => (
-    <Item {...item} itemKey={item.key} user={this.props.user} userActions={this.props.userActions}/>
+    <Item {...item} itemKey={item.key} currentUser={this.props.user} userActions={this.props.userActions}/>
   );
 
   keyExtractor = item => item.key;

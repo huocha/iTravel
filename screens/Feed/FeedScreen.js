@@ -2,14 +2,13 @@ import firebase from 'firebase';
 import React, { Component } from 'react';
 import { View, LayoutAnimation, RefreshControl } from 'react-native';
 import Search from 'react-native-search-box';
-
 import { COLORS, FONTS } from '../../utils/constants';
 import List from '../../components/List';
 
 // Set the default number of images to load for each pagination.
 const PAGE_SIZE = 5;
 
-export default class FeedScreen extends Component {
+class FeedScreen extends Component {
   state = {
     loading: false,
     posts: [],
@@ -18,36 +17,46 @@ export default class FeedScreen extends Component {
   };
 
   componentDidMount() {
-    // Check if we are signed in...
-    const { user, feedActions } = this.props;
     this.makeRemoteRequest();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { feed } = this.props;
+    const { post } = this.props;
+    console.log('||||', post.posts)
+    console.log('-----')
     if (this.state.posts.length !== nextState.posts.length) {
       return true;
     }
-    if ((!feed.posts.length && nextProps.feed.posts.length > 0) || (
-      feed.posts.length && feed.posts[0].key !== nextProps.feed.posts[0].key
-    )) {
-      this.lastKnownKey = nextProps.feed.cursor;
-      const newPosts = this.state.posts.concat(nextProps.feed.posts)
-      this.setState({ posts: newPosts });
+    if (!post.posts.length && nextProps.post.posts.length) {
+      //this.lastKnownKey = nextProps.post.cursor;
+      console.log('---')
+      this.setState({ posts: nextProps.post.posts });
 
       return true;
     }
-    return false;
+    if (post.posts.length && post.posts[0].key !== nextProps.post.posts[0].key) {
+      //this.lastKnownKey = nextProps.post.cursor;
+      console.log('|||')
+      this.setState({ posts: nextProps.post.posts.concat(this.state.posts) });
+      return true;
+    }
+    return true;
   }
 
 
   // Call our database and ask for a subset of the user posts
   makeRemoteRequest = async lastKey => {
-    const { feed, feedActions } = this.props;
+
+    const { user, post, postActions } = this.props;
+    if (post.isLoading) { return; }
+    const uid = user.infos.uid;
+    await postActions.fetchPosts(lastKey, uid, postActions);
+
+    /*const { feed, feedActions } = this.props;
     if (feed.isLoading) { return; }
 
     // The data prop will be an array of posts, the cursor will be used for pagination.
-    const result = await feedActions.getFeed(PAGE_SIZE, lastKey , feedActions)
+    const result = await feedActions.getFeed(PAGE_SIZE, lastKey , feedActions)*/
   };
 
   // Because we want to get the most recent items, don't pass the cursor back.
@@ -80,7 +89,8 @@ export default class FeedScreen extends Component {
   }
 
   render() {
-    const { feed } = this.props;
+    const { post } = this.props;
+
     // Let's make everything purrty by calling this method which animates layout changes.
     LayoutAnimation.easeInEaseOut();
     return (
@@ -97,7 +107,7 @@ export default class FeedScreen extends Component {
           userActions={this.props.userActions}
           refreshControl={
             <RefreshControl
-              refreshing={feed.loading}
+              refreshing={post.isLoading}
               onRefresh={() => { /* #TODO */ }}
             />
           }
@@ -108,3 +118,5 @@ export default class FeedScreen extends Component {
     );
   }
 }
+
+export default FeedScreen;

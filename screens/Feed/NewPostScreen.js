@@ -1,10 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { Component } from 'react';
 import { Image, TextInput, View } from 'react-native';
 import HeaderButtons from 'react-navigation-header-buttons';
 
-export default class NewPostScreen extends React.Component<Props> {
-
+class NewPostScreen extends Component {
   state = { text: '' };
 
   render() {
@@ -29,3 +28,5 @@ export default class NewPostScreen extends React.Component<Props> {
     );
   }
 }
+
+export default NewPostScreen;

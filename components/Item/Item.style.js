@@ -9,13 +9,10 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.MEDIUM,
   },
   textBlue: {
-    fontWeight: '600',
     fontFamily: FONTS.MEDIUM,
     color: COLORS.MAIN_BLUE_COLOR
   },
   subtitle: {
-    fontWeight: '400',
-    opacity: 0.6,
     fontFamily: FONTS.REGULAR
   },
   subtitleWhite: {
@@ -41,7 +38,9 @@ const styles = StyleSheet.create({
     marginRight: padding,
   },
   viewBackground: {
-    backgroundColor: 'rgba(255, 255, 255, 0.73)',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
     paddingLeft: 15,
     paddingVertical: 10,
   },

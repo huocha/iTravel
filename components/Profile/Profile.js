@@ -59,14 +59,8 @@ class ProfileScreen extends Component {
     const { user, postActions } = this.props;
 
     const uid = user.infos.uid;
-    postActions.fetchPosts(uid, postActions);
+    //postActions.fetchPosts(undefined, uid, postActions);
 
-  }
-
-  componentWillMount() {
-    /*this.setState({
-      postsMasonry: mansonry(this.props.posts, 'imageHeight'),
-    })*/
   }
 
   closeDrawer = () => {

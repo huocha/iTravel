@@ -23,8 +23,8 @@ export default class Item extends React.Component {
         this.setState({ width, height });
       });
     }
-    if (Object.keys(this.props.user).length) {
-      this.setState({ likes: this.props.user.infos.user.likes })
+    if (Object.keys(this.props.currentUser).length) {
+      this.setState({ likes: this.props.currentUser.infos.user.likes })
     }
   }
 
@@ -32,8 +32,8 @@ export default class Item extends React.Component {
     if (!equals(nextState, this.state)){
       return true;
     }
-    if (!equals(this.props.user.infos.user.likes, nextProps.user.infos.user.likes)) {
-      this.setState({ likes: nextProps.user.infos.user.likes })
+    if (!equals(this.props.currentUser.infos.user.likes, nextProps.currentUser.infos.user.likes)) {
+      this.setState({ likes: nextProps.currentUser.infos.user.likes })
       return true;
     }
     return false;
@@ -53,8 +53,8 @@ export default class Item extends React.Component {
   }
 
   onActionLike = (itemKey, doubleTap) => {
-    const { user, userActions } = this.props;
-    const uid = user.infos.uid;
+    const { currentUser, userActions } = this.props;
+    const uid = currentUser.infos.uid;
     const { likes } = this.state;
     if (!likes) { return; }
     if (!likes.includes(itemKey)){
@@ -71,13 +71,12 @@ export default class Item extends React.Component {
 
   render() {
     const {
-      name,
       user,
       itemKey,
       image,
       address,
       type,
-      description,
+      text,
       userActions
     } = this.props;
 
@@ -97,42 +96,49 @@ export default class Item extends React.Component {
               ref={animation => this.animation = animation}
               source={require('../../assets/lottie/love.json')}
             />
-            <ImageBackground
+            <View style={styles.viewBackground}>
+              <View style={{ flex: 0.12 }}>
+                <Image
+                  style={{ width: 30, height: 30, borderRadius: 15 }}
+                  source={{ uri: user.avatar }}
+                />
+              </View>
+              <View style={{ flex: 0.78 }}>
+                <Text style={styles.textBlue}>{user.username}</Text>
+                {address && <View style={{ flexDirection: 'row' }}>
+                  <Icon type="Ionicons" name="ios-pin" size={18} />
+                  <Text style={styles.subtitleWhite}>{address}{", "}{address}</Text>
+                </View>}
+              </View>
+            </View>
+            <Image
               resizeMode="contain"
               style={{
-                backgroundColor: '#D8D8D8',
+                backgroundColor: '#fff',
                 width: '100%',
                 height: 250,
               }}
               source={{ uri: image }}
-            >
-              <View style={styles.viewBackground}>
-                <Text style={styles.text}>{name}</Text>
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon type="Ionicons" name="ios-pin" size={18} />
-                  <Text style={styles.subtitleWhite}>{address.street}{", "}{address.city}</Text>
-                </View>
-              </View>
-            </ImageBackground>
+            />
           </View>
         </TouchableWithoutFeedback>
         <Metadata
           likes={this.state.likes}
           itemKey={itemKey}
           onActionLike={this.onActionLike}
-          name={name}
-          description={description}
+          user={user}
+          text={text}
         />
       </View>
     );
   }
 }
 
-const Metadata = ({ itemKey, onActionLike, name, description, likes }) => (
+const Metadata = ({ itemKey, onActionLike, user, text, likes }) => (
   <View style={styles.padding}>
     <IconBar likes={likes} itemKey={itemKey} onActionLike={onActionLike} />
-    <Text style={styles.textBlue}>{name}</Text>
-    <Text style={styles.subtitle}>{description}</Text>
+    <Text style={styles.textBlue}>{user.username}</Text>
+    <Text style={styles.subtitle}>{text}</Text>
   </View>
 );
 
