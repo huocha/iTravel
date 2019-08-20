@@ -9,7 +9,8 @@ class List extends React.Component {
     <Item {...item} itemKey={item.key} currentUser={this.props.user} userActions={this.props.userActions}/>
   );
 
-  keyExtractor = item => item.key;
+  keyExtractor = (item, index) => 'key_'+index;
+
   render() {
     const { onPressFooter, ...props } = this.props;
     return (

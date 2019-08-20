@@ -222,7 +222,7 @@ class ProfileScreen extends Component {
     return (
       <View style={{ padding: 15 }}>
         <FlatList
-          data={this.props.post.posts}
+          data={this.props.post.currentPosts}
           renderItem={({item}) => (
             <View style={styles.itemContainer}>
               <Image source={{ uri: item.image }} style={styles.item} />

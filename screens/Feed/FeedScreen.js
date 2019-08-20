@@ -18,47 +18,45 @@ class FeedScreen extends Component {
 
   componentDidMount() {
     this.makeRemoteRequest();
+    this.fetchCurrentUserPost();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { post } = this.props;
-    console.log('||||', post.posts)
-    console.log('-----')
+
     if (this.state.posts.length !== nextState.posts.length) {
       return true;
     }
     if (!post.posts.length && nextProps.post.posts.length) {
-      //this.lastKnownKey = nextProps.post.cursor;
-      console.log('---')
+      this.lastKnownKey = nextProps.post.cursor;
       this.setState({ posts: nextProps.post.posts });
 
       return true;
     }
     if (post.posts.length && post.posts[0].key !== nextProps.post.posts[0].key) {
-      //this.lastKnownKey = nextProps.post.cursor;
-      console.log('|||')
+      this.lastKnownKey = nextProps.post.cursor;
       this.setState({ posts: nextProps.post.posts.concat(this.state.posts) });
       return true;
     }
-    return true;
+
+    return false;
   }
 
 
   // Call our database and ask for a subset of the user posts
   makeRemoteRequest = async lastKey => {
 
-    const { user, post, postActions } = this.props;
+    const { post, postActions } = this.props;
     if (post.isLoading) { return; }
-    const uid = user.infos.uid;
-    await postActions.fetchPosts(lastKey, uid, postActions);
+    await postActions.fetchPosts(lastKey, undefined, postActions);
 
-    /*const { feed, feedActions } = this.props;
-    if (feed.isLoading) { return; }
-
-    // The data prop will be an array of posts, the cursor will be used for pagination.
-    const result = await feedActions.getFeed(PAGE_SIZE, lastKey , feedActions)*/
   };
 
+  fetchCurrentUserPost = async () => {
+    const { user, post, postActions } = this.props;
+    const uid = user.infos.uid;
+    await postActions.fetchCurrentUserPosts(uid, postActions);
+  }
   // Because we want to get the most recent items, don't pass the cursor back.
   // This will make the data base pull the most recent items.
   _onRefresh = () => this.makeRemoteRequest();
@@ -90,7 +88,6 @@ class FeedScreen extends Component {
 
   render() {
     const { post } = this.props;
-
     // Let's make everything purrty by calling this method which animates layout changes.
     LayoutAnimation.easeInEaseOut();
     return (

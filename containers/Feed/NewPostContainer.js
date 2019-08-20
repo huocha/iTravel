@@ -46,20 +46,18 @@ class NewPostScreenContainer extends Component {
     const { user, post, postActions, navigation } = this.props;
     navigation.setParams({ isLoading: true });
 
-    const uid = user.infos.uid;
-
     if (text && image) {
 
       const { uri: reducedImage, width, height } = await shrinkImageAsync(
         image,
       );
-
-      const remoteUri = await uploadImageAsync(uid, undefined, reducedImage);
+      const photoName = `post_+${moment().unix()}`;
+      const remoteUri = await uploadImageAsync(user.infos.uid, photoName, reducedImage);
 
       const data = {
         text: text.trim(),
         image: remoteUri,
-        user: uid,
+        user: user.infos,
         createdAt: moment().format()
       }
       await postActions.userAddPost(data, postActions);
